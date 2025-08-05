@@ -1,61 +1,41 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { character, traits, powerLevel } = await request.json()
+    const { character, rarity } = await request.json()
 
-    // Generate NFT using Fal AI
-    const response = await fetch("https://fal.run/fal-ai/stable-diffusion-xl", {
-      method: "POST",
-      headers: {
-        Authorization: `Key ${process.env.FAL_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: `LIONSMANE NFT character: ${character}, cyberpunk style, neon colors, digital art, futuristic warrior, ${traits.join(", ")}, high quality, 4k`,
-        image_size: "square_hd",
-        num_inference_steps: 30,
-        guidance_scale: 7.5,
-      }),
-    })
+    // Simulate NFT generation with realistic data
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const imageResult = await response.json()
-
-    // Generate NFT metadata
-    const nftData = {
-      name: `LIONSMANE #${Math.floor(Math.random() * 10000)}`,
-      description: `A powerful LIONSMANE NFT featuring ${character} with enhanced cybernetic abilities`,
-      image: imageResult.images?.[0]?.url || "/placeholder.svg?height=400&width=400",
-      attributes: [
-        { trait_type: "Character", value: character },
-        { trait_type: "Power Level", value: powerLevel },
-        { trait_type: "Rarity", value: powerLevel > 80 ? "Legendary" : powerLevel > 60 ? "Epic" : "Common" },
-        ...traits.map((trait: string) => ({ trait_type: "Ability", value: trait })),
-      ],
-      powerLevel,
-      blockchain: "Polygon",
-      mintable: true,
+    const rarityMultipliers = {
+      common: 1,
+      rare: 2,
+      epic: 3,
+      legendary: 5,
     }
 
-    return NextResponse.json(nftData)
+    const multiplier = rarityMultipliers[rarity as keyof typeof rarityMultipliers] || 1
+
+    const nft = {
+      id: `LION-${Date.now()}`,
+      name: `${character} LIONSMANE`,
+      rarity: rarity,
+      image: "/nfts/generated-nft.png",
+      attributes: {
+        power: Math.floor(Math.random() * 50 + 50) * multiplier,
+        stealth: Math.floor(Math.random() * 50 + 50) * multiplier,
+        hacking: Math.floor(Math.random() * 50 + 50) * multiplier,
+        combat: Math.floor(Math.random() * 50 + 50) * multiplier,
+      },
+      description: `A powerful LIONSMANE NFT featuring ${character}, enhanced with quantum encryption and neural pathway integration. This NFT grants special abilities in the Scam Mercenaires universe.`,
+      mintDate: new Date().toISOString(),
+      blockchain: "Ethereum",
+      contract: "0x742d35Cc6634C0532925a3b8D4C9db96590b5",
+    }
+
+    return NextResponse.json({ nft })
   } catch (error) {
     console.error("Error generating NFT:", error)
-
-    // Fallback NFT data if AI fails
-    const fallbackNft = {
-      name: `LIONSMANE #${Math.floor(Math.random() * 10000)}`,
-      description: `A powerful LIONSMANE NFT featuring a character with enhanced cybernetic abilities`,
-      image: "/placeholder.svg?height=400&width=400",
-      attributes: [
-        { trait_type: "Character", value: "Fallback Character" },
-        { trait_type: "Power Level", value: 50 },
-        { trait_type: "Rarity", value: "Common" },
-      ],
-      powerLevel: 50,
-      blockchain: "Polygon",
-      mintable: true,
-    }
-
-    return NextResponse.json(fallbackNft)
+    return NextResponse.json({ error: "Failed to generate NFT" }, { status: 500 })
   }
 }

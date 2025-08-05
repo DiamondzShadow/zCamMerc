@@ -1,25 +1,32 @@
+import { NextResponse } from "next/server"
 import { generateText } from "ai"
-import { groq } from "@ai-sdk/groq"
-import { type NextRequest, NextResponse } from "next/server"
+import { createDeepInfra } from "@ai-sdk/deepinfra"
 
-export async function POST(request: NextRequest) {
+const deepinfra = createDeepInfra({
+  apiKey: "5xn7PGFnCfDfGBNkNqbvzRomGIHLPduT",
+})
+
+export async function POST(request: Request) {
   try {
     const { character, location } = await request.json()
 
     const { text } = await generateText({
-      model: groq("llama-3-70b-8192"),
-      prompt: `Generate a compelling storyline for the Scam Mercenaires game. 
-      Character: ${character}
-      Location: ${location}
-      
-      Create a narrative that involves:
-      - The character's mission in this location
-      - Encounters with the Limptin Foundation or their operatives
-      - LIONSMANE NFT technology elements
-      - Cyberpunk themes with nano-technology
-      - A cliffhanger ending that leads to the next mission
-      
-      Keep it engaging and under 300 words.`,
+      model: deepinfra("meta-llama/Meta-Llama-3.1-70B-Instruct"),
+      prompt: `Generate an immersive cyberpunk storyline for the Scam Mercenaires universe.
+
+CHARACTER: ${character}
+LOCATION: ${location}
+
+Create a compelling narrative that includes:
+- The character's mission against the Limptin Foundation
+- References to LIONSMANE NFTs and their corruption
+- Cyberpunk elements (hacking, augmentations, corporate espionage)
+- A specific objective or challenge
+- Atmospheric details about the location
+
+Write 2-3 paragraphs that set up an engaging mission scenario.`,
+      maxTokens: 400,
+      temperature: 0.7,
     })
 
     return NextResponse.json({ storyline: text })

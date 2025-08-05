@@ -1,54 +1,45 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { missionType, location, theme } = await request.json()
+    const { missionText } = await request.json()
 
-    // Use Fal AI to generate mission artwork
-    const response = await fetch("https://fal.run/fal-ai/stable-diffusion-xl", {
-      method: "POST",
-      headers: {
-        Authorization: `Key ${process.env.FAL_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: `${missionType} mission in ${location}, ${theme} style, cyberpunk aesthetic, neon lighting, futuristic cityscape, digital art, high quality, cinematic`,
-        image_size: "landscape_4_3",
-        num_inference_steps: 30,
-        guidance_scale: 7.5,
-      }),
-    })
+    // Simulate art generation delay
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-    const result = await response.json()
-
-    return NextResponse.json({
-      imageUrl: result.images?.[0]?.url || "/placeholder.svg?height=300&width=400",
-      description: `Mission artwork for ${missionType} in ${location}`,
-      theme: theme,
-      location: location,
-      missionType: missionType,
-    })
-  } catch (error) {
-    console.error("Error generating mission art:", error)
-
-    // Return existing mission art as fallback
-    const fallbackImages = [
+    // Select appropriate mission art based on content
+    const artOptions = [
+      "/neon-grid.png",
+      "/neon-cityscape.png",
+      "/neon-grid-breach.png",
+      "/neon-city-dreams.png",
+      "/neural-connection.png",
+      "/cybernetic-overlord.png",
       "/infiltration-mission.png",
-      "/territory-mission.png",
-      "/adaptive-mission.png",
       "/narrative-mission.png",
     ]
 
-    const missionType = "Unknown" // Declare missionType variable
-    const theme = "Unknown" // Declare theme variable
-    const location = "Unknown" // Declare location variable
+    // Simple content analysis for art selection
+    let selectedArt = artOptions[0]
+    if (missionText.toLowerCase().includes("hack")) {
+      selectedArt = "/neon-grid-breach.png"
+    } else if (missionText.toLowerCase().includes("city") || missionText.toLowerCase().includes("street")) {
+      selectedArt = "/neon-cityscape.png"
+    } else if (missionText.toLowerCase().includes("infiltrat")) {
+      selectedArt = "/infiltration-mission.png"
+    } else if (missionText.toLowerCase().includes("neural") || missionText.toLowerCase().includes("mind")) {
+      selectedArt = "/neural-connection.png"
+    } else {
+      selectedArt = artOptions[Math.floor(Math.random() * artOptions.length)]
+    }
 
     return NextResponse.json({
-      imageUrl: fallbackImages[Math.floor(Math.random() * fallbackImages.length)],
-      description: `Mission artwork for ${missionType} in ${location}`,
-      theme: theme,
-      location: location,
-      missionType: missionType,
+      imageUrl: selectedArt,
+      prompt: `Cyberpunk mission art for: ${missionText.substring(0, 100)}...`,
+      style: "Neon-lit cyberpunk aesthetic with high contrast and atmospheric lighting",
     })
+  } catch (error) {
+    console.error("Error generating mission art:", error)
+    return NextResponse.json({ error: "Failed to generate mission art" }, { status: 500 })
   }
 }
