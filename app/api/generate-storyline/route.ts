@@ -17,16 +17,17 @@ export async function POST(request: Request) {
 CHARACTER: ${character}
 LOCATION: ${location}
 
-Create a compelling narrative that includes:
-- The character's mission against the Limptin Foundation
-- References to LIONSMANE NFTs and their corruption
-- Cyberpunk elements (hacking, augmentations, corporate espionage)
-- A specific objective or challenge
-- Atmospheric details about the location
+Create a compelling narrative that:
+1. Features the character in the specified location
+2. Involves the corrupt Limptin Foundation and their NFT schemes
+3. Includes cyberpunk elements (hacking, augmentations, corporate espionage)
+4. References LIONSMANE NFTs and G4C tokens
+5. Sets up potential missions and conflicts
+6. Is 2-3 paragraphs long
 
-Write 2-3 paragraphs that set up an engaging mission scenario.`,
+The tone should be dark, gritty, and high-tech with corporate thriller elements.`,
       maxTokens: 400,
-      temperature: 0.7,
+      temperature: 0.8,
     })
 
     return NextResponse.json({ storyline: text })

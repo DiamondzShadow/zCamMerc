@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
-    const { character, rarity } = await request.json()
+    const { prompt, rarity } = await request.json()
 
     // Simulate NFT generation with realistic data
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -12,25 +12,37 @@ export async function POST(request: Request) {
       rare: 2,
       epic: 3,
       legendary: 5,
+      mythic: 8,
+    }
+
+    const baseStats = {
+      attack: Math.floor(Math.random() * 50) + 25,
+      defense: Math.floor(Math.random() * 50) + 25,
+      speed: Math.floor(Math.random() * 50) + 25,
+      intelligence: Math.floor(Math.random() * 50) + 25,
     }
 
     const multiplier = rarityMultipliers[rarity as keyof typeof rarityMultipliers] || 1
 
     const nft = {
       id: `LION-${Date.now()}`,
-      name: `${character} LIONSMANE`,
-      rarity: rarity,
+      name: `${rarity.charAt(0).toUpperCase() + rarity.slice(1)} LIONSMANE`,
+      description: `A ${rarity} LIONSMANE NFT generated from: ${prompt}`,
       image: "/nfts/generated-nft.png",
+      rarity,
       attributes: {
-        power: Math.floor(Math.random() * 50 + 50) * multiplier,
-        stealth: Math.floor(Math.random() * 50 + 50) * multiplier,
-        hacking: Math.floor(Math.random() * 50 + 50) * multiplier,
-        combat: Math.floor(Math.random() * 50 + 50) * multiplier,
+        attack: Math.floor(baseStats.attack * multiplier),
+        defense: Math.floor(baseStats.defense * multiplier),
+        speed: Math.floor(baseStats.speed * multiplier),
+        intelligence: Math.floor(baseStats.intelligence * multiplier),
       },
-      description: `A powerful LIONSMANE NFT featuring ${character}, enhanced with quantum encryption and neural pathway integration. This NFT grants special abilities in the Scam Mercenaires universe.`,
-      mintDate: new Date().toISOString(),
+      powerLevel: Math.floor(
+        ((baseStats.attack + baseStats.defense + baseStats.speed + baseStats.intelligence) * multiplier) / 4,
+      ),
+      mintPrice: Math.floor(Math.random() * 1000) + 500,
+      creator: "Scam Mercenaires AI",
       blockchain: "Ethereum",
-      contract: "0x742d35Cc6634C0532925a3b8D4C9db96590b5",
+      tokenStandard: "ERC-721",
     }
 
     return NextResponse.json({ nft })
