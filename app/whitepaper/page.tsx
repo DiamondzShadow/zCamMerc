@@ -1,27 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import {
-  Download,
-  FileText,
-  Coins,
-  Shield,
-  Users,
-  Target,
-  Calendar,
-  ExternalLink,
-  Twitter,
-  MessageCircle,
-} from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Users, Target, Gamepad2, Zap, Shield, Sword, Brain, Globe, Crown, Code, Palette, Download } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function WhitepaperPage() {
-  const [activeSection, setActiveSection] = useState("executive")
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -30,10 +15,8 @@ export default function WhitepaperPage() {
           <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4">
             Scam Mercenaires Whitepaper
           </h1>
-          <p className="text-xl text-gray-300 mb-6">
-            Revolutionizing Gaming Through Blockchain Technology and AI-Powered NFTs
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
+          <p className="text-xl text-gray-300 mb-6">Revolutionizing Gaming Through Blockchain Technology and AI-Powered NFTs</p>
+          <div className="flex justify-center gap-4 mb-8">
             <Badge variant="outline" className="text-cyan-400 border-cyan-400">
               Version 3.0
             </Badge>
@@ -46,8 +29,8 @@ export default function WhitepaperPage() {
           </div>
         </div>
 
-        <Tabs value={activeSection} onValueChange={setActiveSection} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 mb-8">
+        <Tabs defaultValue="executive" className="w-full">
+          <TabsList className="grid w-full grid-cols-6 mb-8">
             <TabsTrigger value="executive">Executive</TabsTrigger>
             <TabsTrigger value="problem">Problem</TabsTrigger>
             <TabsTrigger value="solution">Solution</TabsTrigger>
@@ -60,68 +43,53 @@ export default function WhitepaperPage() {
           <TabsContent value="executive" className="space-y-6">
             <Card className="bg-slate-800/50 border-cyan-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-cyan-400">
-                  <FileText className="h-6 w-6" />
-                  Executive Summary
-                </CardTitle>
+                <CardTitle className="text-cyan-400 text-2xl">Executive Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-gray-300 leading-relaxed text-lg">
-                  Scam Mercenaires represents a paradigm shift in blockchain gaming, combining immersive cyberpunk
-                  storytelling with cutting-edge NFT technology and decentralized finance mechanisms. Our platform
-                  creates a sustainable gaming ecosystem where players truly own their digital assets and can earn real
-                  value through strategic gameplay.
+                  Scam Mercenaires represents a paradigm shift in blockchain gaming, combining immersive cyberpunk 
+                  storytelling with cutting-edge AI technology and true digital asset ownership. Built by industry 
+                  veterans Diamondz Crews, Diamondz Shadow, and X Banks, our platform creates a living, breathing 
+                  digital universe where every decision matters and every asset evolves.
                 </p>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-4 rounded-lg border border-cyan-500/20">
-                    <div className="text-2xl font-bold text-cyan-400 mb-1">$50M+</div>
-                    <div className="text-sm text-gray-300">Target Market Cap</div>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-cyan-400 font-semibold text-xl mb-3">Vision</h3>
+                    <p className="text-gray-300">
+                      To create the most immersive and economically sustainable Web3 gaming ecosystem, 
+                      where players truly own their digital destinies.
+                    </p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-4 rounded-lg border border-purple-500/20">
-                    <div className="text-2xl font-bold text-purple-400 mb-1">100K+</div>
-                    <div className="text-sm text-gray-300">Expected Players Y1</div>
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-purple-400 font-semibold text-xl mb-3">Mission</h3>
+                    <p className="text-gray-300">
+                      Revolutionize gaming through AI-powered NFTs, strategic gameplay, and community-driven 
+                      governance in a cyberpunk universe.
+                    </p>
                   </div>
-                  <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 p-4 rounded-lg border border-green-500/20">
-                    <div className="text-2xl font-bold text-green-400 mb-1">10K</div>
-                    <div className="text-sm text-gray-300">Genesis NFTs</div>
-                  </div>
-                  <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5 p-4 rounded-lg border border-orange-500/20">
-                    <div className="text-2xl font-bold text-orange-400 mb-1">Q2 2025</div>
-                    <div className="text-sm text-gray-300">Beta Launch</div>
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-green-400 font-semibold text-xl mb-3">Values</h3>
+                    <p className="text-gray-300">
+                      Innovation, transparency, community empowerment, and true digital ownership for all players.
+                    </p>
                   </div>
                 </div>
 
-                <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h4 className="font-semibold text-purple-400 mb-4">Key Value Propositions</h4>
+                <div className="bg-gradient-to-r from-cyan-900/20 to-purple-900/20 p-6 rounded-lg border border-cyan-500/20">
+                  <h3 className="text-white font-semibold text-xl mb-4">Key Highlights</h3>
                   <div className="grid md:grid-cols-2 gap-4">
-                    <ul className="space-y-2 text-sm text-gray-300">
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>True ownership of in-game assets through NFTs</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Play-to-earn mechanics with sustainable tokenomics</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>AI-powered dynamic content generation</span>
-                      </li>
+                    <ul className="space-y-2 text-gray-300">
+                      <li>• AI-powered NFTs with evolving consciousness</li>
+                      <li>• Strategic cyberpunk gameplay mechanics</li>
+                      <li>• Community-driven governance system</li>
+                      <li>• Cross-platform compatibility</li>
                     </ul>
-                    <ul className="space-y-2 text-sm text-gray-300">
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Cross-platform interoperability</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Community-driven governance</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <span>Immersive cyberpunk narrative</span>
-                      </li>
+                    <ul className="space-y-2 text-gray-300">
+                      <li>• Sustainable dual-token economy</li>
+                      <li>• Immersive narrative experiences</li>
+                      <li>• Player-owned digital territories</li>
+                      <li>• Esports and tournament infrastructure</li>
                     </ul>
                   </div>
                 </div>
@@ -133,60 +101,57 @@ export default function WhitepaperPage() {
           <TabsContent value="problem" className="space-y-6">
             <Card className="bg-slate-800/50 border-red-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-red-400">
-                  <Target className="h-6 w-6" />
-                  Market Problems We Solve
-                </CardTitle>
+                <CardTitle className="text-red-400 text-2xl">The Problem We're Solving</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold text-red-400 mb-2">Lack of True Asset Ownership</h4>
-                    <p className="text-gray-300 text-sm">
-                      Traditional gaming platforms retain full control over player assets, which can be lost, devalued,
-                      or removed at any time without player consent.
-                    </p>
-                  </div>
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  The current gaming industry faces critical challenges that limit player empowerment and 
+                  economic participation. Traditional games trap value within closed ecosystems, while 
+                  existing Web3 games often sacrifice gameplay quality for tokenomics.
+                </p>
 
-                  <div className="bg-orange-500/10 border border-orange-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold text-orange-400 mb-2">Unsustainable Play-to-Earn Models</h4>
-                    <p className="text-gray-300 text-sm">
-                      Most blockchain games rely on unsustainable token inflation and lack engaging gameplay, leading to
-                      economic collapse and player exodus.
-                    </p>
-                  </div>
-
-                  <div className="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold text-yellow-400 mb-2">Limited Interoperability</h4>
-                    <p className="text-gray-300 text-sm">
-                      Gaming assets are typically locked within single ecosystems, preventing cross-game utility and
-                      reducing long-term value.
-                    </p>
-                  </div>
-
-                  <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold text-purple-400 mb-2">Shallow Gameplay Experience</h4>
-                    <p className="text-gray-300 text-sm">
-                      Many blockchain games prioritize tokenomics over gameplay, resulting in repetitive mechanics and
-                      poor player retention.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h4 className="font-semibold text-cyan-400 mb-4">Market Opportunity</h4>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-400 mb-1">$321B</div>
-                      <div className="text-sm text-gray-300">Global Gaming Market</div>
+                <div className="space-y-6">
+                  <div className="bg-red-900/20 p-6 rounded-lg border border-red-500/20">
+                    <h3 className="text-red-400 font-semibold text-xl mb-4">Current Industry Issues</h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="text-white font-semibold mb-3">Traditional Gaming</h4>
+                        <ul className="space-y-2 text-gray-300">
+                          <li>• No true asset ownership</li>
+                          <li>• Centralized control over economies</li>
+                          <li>• Limited player agency in development</li>
+                          <li>• Value extraction without sharing</li>
+                          <li>• Closed ecosystem limitations</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-semibold mb-3">Current Web3 Games</h4>
+                        <ul className="space-y-2 text-gray-300">
+                          <li>• Poor gameplay experiences</li>
+                          <li>• Unsustainable tokenomics</li>
+                          <li>• Lack of meaningful narratives</li>
+                          <li>• High barrier to entry</li>
+                          <li>• Limited utility for NFTs</li>
+                        </ul>
+                      </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-purple-400 mb-1">$25B</div>
-                      <div className="text-sm text-gray-300">NFT Market Size</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-cyan-400 mb-1">3.2B</div>
-                      <div className="text-sm text-gray-300">Global Gamers</div>
+                  </div>
+
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-orange-400 font-semibold text-xl mb-4">Market Opportunity</h3>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-cyan-400 mb-2">$180B</div>
+                        <p className="text-gray-300">Global Gaming Market</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-purple-400 mb-2">$25B</div>
+                        <p className="text-gray-300">NFT Market Size</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-green-400 mb-2">3.2B</div>
+                        <p className="text-gray-300">Global Gamers</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -198,83 +163,93 @@ export default function WhitepaperPage() {
           <TabsContent value="solution" className="space-y-6">
             <Card className="bg-slate-800/50 border-green-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-green-400">
-                  <Shield className="h-6 w-6" />
-                  Our Solution
-                </CardTitle>
+                <CardTitle className="text-green-400 text-2xl">Our Solution</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <p className="text-gray-300 leading-relaxed">
-                  Scam Mercenaires addresses these challenges through a comprehensive platform that combines engaging
-                  gameplay with sustainable blockchain economics and true digital ownership.
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  Scam Mercenaires bridges the gap between engaging gameplay and meaningful Web3 integration. 
+                  Our platform combines AI-powered NFTs, strategic cyberpunk gameplay, and sustainable economics 
+                  to create a truly revolutionary gaming experience.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg">
-                      <h4 className="font-semibold text-green-400 mb-2">Living NFT Technology</h4>
-                      <p className="text-gray-300 text-sm">
-                        Our LIONSMANE NFTs evolve and adapt based on player actions, creating unique digital companions
-                        with genuine AI consciousness.
-                      </p>
-                    </div>
-
-                    <div className="bg-cyan-500/10 border border-cyan-500/20 p-4 rounded-lg">
-                      <h4 className="font-semibold text-cyan-400 mb-2">Sustainable Economy</h4>
-                      <p className="text-gray-300 text-sm">
-                        Dual-token system with deflationary mechanisms and utility-driven demand ensures long-term
-                        economic stability.
-                      </p>
-                    </div>
+                  <div className="bg-green-900/20 p-6 rounded-lg border border-green-500/20">
+                    <h3 className="text-green-400 font-semibold text-xl mb-4">Core Innovation</h3>
+                    <ul className="space-y-3 text-gray-300">
+                      <li className="flex items-start gap-3">
+                        <Brain className="h-5 w-5 text-cyan-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>AI-Powered NFTs:</strong> Living digital assets that evolve, learn, and develop unique personalities
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Target className="h-5 w-5 text-purple-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>Strategic Gameplay:</strong> Deep tactical combat and decision-making systems
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Globe className="h-5 w-5 text-green-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>Immersive World:</strong> Rich cyberpunk universe with meaningful player choices
+                        </div>
+                      </li>
+                    </ul>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-lg">
-                      <h4 className="font-semibold text-purple-400 mb-2">Immersive Gameplay</h4>
-                      <p className="text-gray-300 text-sm">
-                        Rich cyberpunk narrative with strategic mission-based gameplay that rewards skill and planning
-                        over simple grinding.
-                      </p>
-                    </div>
-
-                    <div className="bg-orange-500/10 border border-orange-500/20 p-4 rounded-lg">
-                      <h4 className="font-semibold text-orange-400 mb-2">Cross-Chain Compatibility</h4>
-                      <p className="text-gray-300 text-sm">
-                        Assets work across multiple blockchain networks and can be integrated into partner games and
-                        platforms.
-                      </p>
-                    </div>
+                  <div className="bg-blue-900/20 p-6 rounded-lg border border-blue-500/20">
+                    <h3 className="text-blue-400 font-semibold text-xl mb-4">Technical Architecture</h3>
+                    <ul className="space-y-3 text-gray-300">
+                      <li className="flex items-start gap-3">
+                        <Zap className="h-5 w-5 text-yellow-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>Blockchain Integration:</strong> Polygon for fast, low-cost transactions
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Shield className="h-5 w-5 text-red-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>Smart Contracts:</strong> Audited, secure, and upgradeable contract system
+                        </div>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Gamepad2 className="h-5 w-5 text-purple-400 mt-1 flex-shrink-0" />
+                        <div>
+                          <strong>Cross-Platform:</strong> Web, mobile, and desktop compatibility
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
-                <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h4 className="font-semibold text-cyan-400 mb-4">Technical Innovation</h4>
+                <div className="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-6 rounded-lg border border-purple-500/20">
+                  <h3 className="text-white font-semibold text-xl mb-4">Unique Value Propositions</h3>
                   <div className="grid md:grid-cols-3 gap-4">
                     <div>
-                      <h5 className="font-semibold text-purple-400 mb-2">AI Integration</h5>
+                      <h4 className="text-cyan-400 font-semibold mb-2">For Players</h4>
                       <ul className="text-sm text-gray-300 space-y-1">
-                        <li>• Dynamic content generation</li>
-                        <li>• Adaptive difficulty scaling</li>
-                        <li>• Intelligent NPC behavior</li>
-                        <li>• Personalized experiences</li>
+                        <li>• True asset ownership</li>
+                        <li>• Engaging gameplay first</li>
+                        <li>• Economic participation</li>
+                        <li>• Community governance</li>
                       </ul>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-green-400 mb-2">Blockchain Tech</h5>
+                      <h4 className="text-purple-400 font-semibold mb-2">For Investors</h4>
                       <ul className="text-sm text-gray-300 space-y-1">
-                        <li>• Layer 2 scaling solutions</li>
-                        <li>• Smart contract automation</li>
-                        <li>• Decentralized governance</li>
-                        <li>• Cross-chain bridges</li>
+                        <li>• Sustainable tokenomics</li>
+                        <li>• Growing user base</li>
+                        <li>• Multiple revenue streams</li>
+                        <li>• Strong team execution</li>
                       </ul>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-orange-400 mb-2">Security</h5>
+                      <h4 className="text-green-400 font-semibold mb-2">For Ecosystem</h4>
                       <ul className="text-sm text-gray-300 space-y-1">
-                        <li>• Multi-signature wallets</li>
-                        <li>• Audited smart contracts</li>
-                        <li>• Decentralized storage</li>
-                        <li>• Anti-cheat systems</li>
+                        <li>• Cross-game compatibility</li>
+                        <li>• Developer partnerships</li>
+                        <li>• Community contributions</li>
+                        <li>• Open-source components</li>
                       </ul>
                     </div>
                   </div>
@@ -287,103 +262,82 @@ export default function WhitepaperPage() {
           <TabsContent value="tokenomics" className="space-y-6">
             <Card className="bg-slate-800/50 border-yellow-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-yellow-400">
-                  <Coins className="h-6 w-6" />
-                  Tokenomics
-                </CardTitle>
+                <CardTitle className="text-yellow-400 text-2xl">Tokenomics</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  Our dual-token economy balances gameplay utility with long-term value creation. 
+                  The G4C and C4C tokens work together to create a sustainable and engaging economic system.
+                </p>
+
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-slate-700/50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-cyan-400 mb-4">G4C Token (Utility)</h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Total Supply:</span>
-                        <span className="text-cyan-400 font-semibold">1,000,000,000</span>
+                  <div className="bg-yellow-900/20 p-6 rounded-lg border border-yellow-500/20">
+                    <h3 className="text-yellow-400 font-semibold text-xl mb-4">G4C Token (Utility)</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-white font-semibold mb-2">Primary Uses</h4>
+                        <ul className="text-gray-300 space-y-1">
+                          <li>• In-game purchases and upgrades</li>
+                          <li>• Mission deployment costs</li>
+                          <li>• Character enhancement</li>
+                          <li>• Marketplace transactions</li>
+                        </ul>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Initial Price:</span>
-                        <span className="text-cyan-400 font-semibold">$0.01</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Burn Rate:</span>
-                        <span className="text-cyan-400 font-semibold">2% per transaction</span>
+                      <div>
+                        <h4 className="text-white font-semibold mb-2">Earning Methods</h4>
+                        <ul className="text-gray-300 space-y-1">
+                          <li>• Mission completion rewards</li>
+                          <li>• Daily/weekly challenges</li>
+                          <li>• Tournament participation</li>
+                          <li>• Community contributions</li>
+                        </ul>
                       </div>
                     </div>
-
-                    <h5 className="font-semibold text-purple-400 mt-4 mb-2">Use Cases:</h5>
-                    <ul className="text-sm text-gray-300 space-y-1">
-                      <li>• Equipment upgrades and purchases</li>
-                      <li>• Mission entry fees</li>
-                      <li>• Territory maintenance costs</li>
-                      <li>• NFT enhancement materials</li>
-                      <li>• Marketplace transaction fees</li>
-                    </ul>
                   </div>
 
-                  <div className="bg-slate-700/50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-purple-400 mb-4">C4C Token (Governance)</h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Total Supply:</span>
-                        <span className="text-purple-400 font-semibold">10,000,000</span>
+                  <div className="bg-purple-900/20 p-6 rounded-lg border border-purple-500/20">
+                    <h3 className="text-purple-400 font-semibold text-xl mb-4">C4C Token (Governance)</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-white font-semibold mb-2">Primary Uses</h4>
+                        <ul className="text-gray-300 space-y-1">
+                          <li>• Governance voting rights</li>
+                          <li>• Premium content access</li>
+                          <li>• Rare NFT purchases</li>
+                          <li>• Staking rewards</li>
+                        </ul>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Conversion Rate:</span>
-                        <span className="text-purple-400 font-semibold">100 G4C = 1 C4C</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-300">Staking APY:</span>
-                        <span className="text-purple-400 font-semibold">15-25%</span>
+                      <div>
+                        <h4 className="text-white font-semibold mb-2">Conversion</h4>
+                        <ul className="text-gray-300 space-y-1">
+                          <li>• 100 G4C = 1 C4C</li>
+                          <li>• One-way conversion</li>
+                          <li>• Deflationary mechanism</li>
+                          <li>• Value appreciation driver</li>
+                        </ul>
                       </div>
                     </div>
-
-                    <h5 className="font-semibold text-green-400 mt-4 mb-2">Use Cases:</h5>
-                    <ul className="text-sm text-gray-300 space-y-1">
-                      <li>• Governance voting rights</li>
-                      <li>• Premium NFT purchases</li>
-                      <li>• Exclusive mission access</li>
-                      <li>• Staking rewards</li>
-                      <li>• Partnership benefits</li>
-                    </ul>
                   </div>
                 </div>
 
                 <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h4 className="font-semibold text-yellow-400 mb-4">Token Distribution</h4>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Play-to-Earn Rewards</span>
-                        <span className="text-green-400 font-semibold">40%</span>
-                      </div>
-                      <Progress value={40} className="h-2" />
-
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Development Team</span>
-                        <span className="text-blue-400 font-semibold">20%</span>
-                      </div>
-                      <Progress value={20} className="h-2" />
-
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Marketing & Partnerships</span>
-                        <span className="text-purple-400 font-semibold">15%</span>
-                      </div>
-                      <Progress value={15} className="h-2" />
+                  <h3 className="text-cyan-400 font-semibold text-xl mb-4">Token Distribution</h3>
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-400 mb-2">40%</div>
+                      <p className="text-gray-300">Community & Rewards</p>
                     </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Community Treasury</span>
-                        <span className="text-orange-400 font-semibold">15%</span>
-                      </div>
-                      <Progress value={15} className="h-2" />
-
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Liquidity Pool</span>
-                        <span className="text-cyan-400 font-semibold">10%</span>
-                      </div>
-                      <Progress value={10} className="h-2" />
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-400 mb-2">25%</div>
+                      <p className="text-gray-300">Development Team</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-400 mb-2">20%</div>
+                      <p className="text-gray-300">Public Sale</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-400 mb-2">15%</div>
+                      <p className="text-gray-300">Ecosystem Fund</p>
                     </div>
                   </div>
                 </div>
@@ -395,90 +349,84 @@ export default function WhitepaperPage() {
           <TabsContent value="roadmap" className="space-y-6">
             <Card className="bg-slate-800/50 border-blue-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-blue-400">
-                  <Calendar className="h-6 w-6" />
-                  Development Roadmap
-                </CardTitle>
+                <CardTitle className="text-blue-400 text-2xl">Development Roadmap</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  Our roadmap outlines the strategic development phases for Scam Mercenaires, 
+                  from initial launch through full ecosystem maturity.
+                </p>
+
                 <div className="space-y-6">
-                  <div className="relative">
-                    <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-gradient-to-b from-green-400 to-transparent"></div>
-
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <div className="w-3 h-3 bg-white rounded-full"></div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-semibold text-green-400">Q1 2025 - Foundation</h4>
-                          <Badge className="bg-green-500/20 text-green-400">Completed</Badge>
-                        </div>
-                        <ul className="text-sm text-gray-300 space-y-1">
-                          <li>• Core team assembly and funding</li>
-                          <li>• Smart contract development</li>
-                          <li>• Initial NFT collection design</li>
-                          <li>• Community building and social media presence</li>
-                        </ul>
-                      </div>
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h3 className="text-green-400 font-semibold text-xl mb-3">Phase 1: Foundation (Q1 2025)</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Core game mechanics implementation</li>
+                        <li>• Basic NFT system launch</li>
+                        <li>• Telegram bot deployment</li>
+                        <li>• Community building initiatives</li>
+                      </ul>
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Smart contract audits</li>
+                        <li>• Alpha testing program</li>
+                        <li>• Initial token distribution</li>
+                        <li>• Partnership announcements</li>
+                      </ul>
                     </div>
+                  </div>
 
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <div className="w-3 h-3 bg-white rounded-full"></div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-semibold text-blue-400">Q2 2025 - Beta Launch</h4>
-                          <Badge className="bg-blue-500/20 text-blue-400">In Progress</Badge>
-                        </div>
-                        <ul className="text-sm text-gray-300 space-y-1">
-                          <li>• Genesis NFT mint (10,000 pieces)</li>
-                          <li>• Beta version release with core missions</li>
-                          <li>• Token launch and initial DEX listing</li>
-                          <li>• Partnership announcements</li>
-                        </ul>
-                      </div>
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h3 className="text-blue-400 font-semibold text-xl mb-3">Phase 2: Expansion (Q2 2025)</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Advanced mission systems</li>
+                        <li>• Multiplayer functionality</li>
+                        <li>• NFT marketplace launch</li>
+                        <li>• Mobile app development</li>
+                      </ul>
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Governance system activation</li>
+                        <li>• Staking mechanisms</li>
+                        <li>• Cross-chain integration</li>
+                        <li>• Beta testing expansion</li>
+                      </ul>
                     </div>
+                  </div>
 
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <div className="w-3 h-3 bg-slate-700 rounded-full"></div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-semibold text-purple-400">Q3 2025 - Expansion</h4>
-                          <Badge variant="outline" className="text-purple-400 border-purple-400">
-                            Planned
-                          </Badge>
-                        </div>
-                        <ul className="text-sm text-gray-300 space-y-1">
-                          <li>• Full game launch with all regions</li>
-                          <li>• Advanced AI features implementation</li>
-                          <li>• Mobile app release</li>
-                          <li>• Major exchange listings</li>
-                        </ul>
-                      </div>
+                  <div className="border-l-4 border-purple-500 pl-6">
+                    <h3 className="text-purple-400 font-semibold text-xl mb-3">Phase 3: Evolution (Q3 2025)</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• AI-powered NFT consciousness</li>
+                        <li>• Tournament infrastructure</li>
+                        <li>• Guild system implementation</li>
+                        <li>• VR compatibility layer</li>
+                      </ul>
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Advanced analytics dashboard</li>
+                        <li>• Creator economy tools</li>
+                        <li>• Esports league launch</li>
+                        <li>• Global marketing campaign</li>
+                      </ul>
                     </div>
+                  </div>
 
-                    <div className="flex items-start gap-4">
-                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <div className="w-3 h-3 bg-slate-700 rounded-full"></div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-semibold text-orange-400">Q4 2025 - Ecosystem</h4>
-                          <Badge variant="outline" className="text-orange-400 border-orange-400">
-                            Future
-                          </Badge>
-                        </div>
-                        <ul className="text-sm text-gray-300 space-y-1">
-                          <li>• Cross-game interoperability</li>
-                          <li>• DAO governance implementation</li>
-                          <li>• Metaverse integration</li>
-                          <li>• Global tournament system</li>
-                        </ul>
-                      </div>
+                  <div className="border-l-4 border-red-500 pl-6">
+                    <h3 className="text-red-400 font-semibold text-xl mb-3">Phase 4: Mastery (Q4 2025)</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Full ecosystem maturity</li>
+                        <li>• Metaverse integration</li>
+                        <li>• User-generated content tools</li>
+                        <li>• Global tournament series</li>
+                      </ul>
+                      <ul className="text-gray-300 space-y-2">
+                        <li>• Enterprise partnerships</li>
+                        <li>• Educational initiatives</li>
+                        <li>• Sustainability programs</li>
+                        <li>• Next-gen technology research</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -488,128 +436,149 @@ export default function WhitepaperPage() {
 
           {/* Team */}
           <TabsContent value="team" className="space-y-6">
-            <Card className="bg-slate-800/50 border-cyan-500/20">
+            <Card className="bg-slate-800/50 border-purple-500/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-cyan-400">
-                  <Users className="h-6 w-6" />
+                <CardTitle className="text-purple-400 text-2xl flex items-center gap-2">
+                  <Users className="h-8 w-8" />
                   Core Team
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="bg-slate-700/50 p-6 rounded-lg text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-white font-bold text-xl">JS</span>
-                    </div>
-                    <h4 className="font-semibold text-cyan-400 mb-1">John Smith</h4>
-                    <p className="text-sm text-purple-400 mb-3">CEO & Founder</p>
-                    <p className="text-xs text-gray-300">
-                      Former blockchain architect at major gaming studio with 10+ years experience in game development
-                      and DeFi protocols.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-700/50 p-6 rounded-lg text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-purple-400 to-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-white font-bold text-xl">AL</span>
-                    </div>
-                    <h4 className="font-semibold text-purple-400 mb-1">Alice Lee</h4>
-                    <p className="text-sm text-green-400 mb-3">CTO</p>
-                    <p className="text-xs text-gray-300">
-                      AI researcher and smart contract expert, previously led development teams at top-tier blockchain
-                      companies.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-700/50 p-6 rounded-lg text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-orange-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-white font-bold text-xl">MR</span>
-                    </div>
-                    <h4 className="font-semibold text-green-400 mb-1">Mike Rodriguez</h4>
-                    <p className="text-sm text-orange-400 mb-3">Creative Director</p>
-                    <p className="text-xs text-gray-300">
-                      Award-winning game designer with expertise in narrative-driven experiences and cyberpunk
-                      aesthetics.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h4 className="font-semibold text-purple-400 mb-4">Advisory Board</h4>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <h5 className="font-semibold text-cyan-400 mb-2">Blockchain Advisors</h5>
-                      <ul className="text-sm text-gray-300 space-y-1">
-                        <li>• Former Ethereum Foundation members</li>
-                        <li>• DeFi protocol founders</li>
-                        <li>• NFT marketplace executives</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h5 className="font-semibold text-green-400 mb-2">Gaming Industry Veterans</h5>
-                      <ul className="text-sm text-gray-300 space-y-1">
-                        <li>• AAA game studio executives</li>
-                        <li>• Esports tournament organizers</li>
-                        <li>• Gaming influencers and streamers</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-slate-800/50 border-yellow-500/20">
-              <CardHeader>
-                <CardTitle className="text-yellow-400">Legal Disclaimer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  This whitepaper is for informational purposes only and does not constitute investment advice,
-                  financial advice, trading advice, or any other sort of advice. The information contained herein is
-                  subject to change without notice. Scam Mercenaires makes no representations or warranties regarding
-                  the accuracy or completeness of the information provided. Potential participants should conduct their
-                  own research and consult with financial advisors before making any investment decisions.
+              <CardContent className="space-y-8">
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  Our core team brings together decades of experience in gaming, blockchain technology, 
+                  and creative design. Each member is committed to revolutionizing the Web3 gaming landscape.
                 </p>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Crown className="h-12 w-12 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Diamondz Crews</h3>
+                    <Badge variant="outline" className="text-purple-400 border-purple-400 mb-4">
+                      Chief Executive Officer
+                    </Badge>
+                    <p className="text-gray-300 leading-relaxed mb-4">
+                      Visionary leader with 8+ years in digital entertainment and Web3 gaming. 
+                      Former blockchain architect at major gaming studios with expertise in DeFi protocols. 
+                      Passionate about creating revolutionary gaming experiences that empower players.
+                    </p>
+                    <div className="space-y-2">
+                      <Badge variant="outline" className="text-xs text-purple-400 border-purple-400 mr-2">
+                        Strategic Vision
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-cyan-400 border-cyan-400 mr-2">
+                        Web3 Expert
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-green-400 border-green-400">
+                        Gaming Industry
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Code className="h-12 w-12 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Diamondz Shadow</h3>
+                    <Badge variant="outline" className="text-blue-400 border-blue-400 mb-4">
+                      Chief Technology Officer
+                    </Badge>
+                    <p className="text-gray-300 leading-relaxed mb-4">
+                      AI researcher and smart contract expert with previous leadership roles at top-tier 
+                      blockchain companies. Specializes in scalable game architecture, AI integration, 
+                      and cutting-edge blockchain technology implementation.
+                    </p>
+                    <div className="space-y-2">
+                      <Badge variant="outline" className="text-xs text-blue-400 border-blue-400 mr-2">
+                        Blockchain Dev
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-green-400 border-green-400 mr-2">
+                        AI Integration
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-purple-400 border-purple-400">
+                        Smart Contracts
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Palette className="h-12 w-12 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">X Banks</h3>
+                    <Badge variant="outline" className="text-green-400 border-green-400 mb-4">
+                      Mission Designer
+                    </Badge>
+                    <p className="text-gray-300 leading-relaxed mb-4">
+                      Award-winning game designer with expertise in narrative-driven experiences and 
+                      cyberpunk aesthetics. Master of creating immersive storylines and challenging 
+                      strategic scenarios that keep players engaged for hours.
+                    </p>
+                    <div className="space-y-2">
+                      <Badge variant="outline" className="text-xs text-green-400 border-green-400 mr-2">
+                        Mission Design
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-orange-400 border-orange-400 mr-2">
+                        Narrative Expert
+                      </Badge>
+                      <Badge variant="outline" className="text-xs text-red-400 border-red-400">
+                        Cyberpunk Lore
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-6 rounded-lg border border-purple-500/20">
+                  <h3 className="text-white font-semibold text-xl mb-4">Team Philosophy</h3>
+                  <p className="text-gray-300 leading-relaxed">
+                    Diamondz Crews, Diamondz Shadow, and X Banks share a unified vision: to create the most 
+                    innovative and player-centric Web3 gaming experience ever built. Our combined expertise 
+                    spans strategic leadership, technical excellence, and creative storytelling. We believe 
+                    in transparency, community empowerment, and building sustainable value for all stakeholders. 
+                    Together, we're not just creating a game – we're building the future of digital entertainment.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-slate-700/50 p-4 rounded-lg text-center">
+                    <h4 className="text-cyan-400 font-semibold mb-2">Innovation First</h4>
+                    <p className="text-sm text-gray-300">
+                      Constantly pushing boundaries with cutting-edge technology and gameplay mechanics.
+                    </p>
+                  </div>
+                  <div className="bg-slate-700/50 p-4 rounded-lg text-center">
+                    <h4 className="text-purple-400 font-semibold mb-2">Community Driven</h4>
+                    <p className="text-sm text-gray-300">
+                      Building with our community at the center, ensuring player feedback shapes development.
+                    </p>
+                  </div>
+                  <div className="bg-slate-700/50 p-4 rounded-lg text-center">
+                    <h4 className="text-green-400 font-semibold mb-2">Quality Excellence</h4>
+                    <p className="text-sm text-gray-300">
+                      Never compromising on quality, delivering polished experiences that exceed expectations.
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
 
-        {/* Call to Action */}
-        <div className="mt-12 text-center space-y-6">
-          <Card className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/20 max-w-2xl mx-auto">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-semibold text-cyan-400 mb-4">Join the Revolution</h3>
+        {/* Download Section */}
+        <div className="mt-12 text-center">
+          <Card className="bg-slate-800/50 border-cyan-500/20 max-w-md mx-auto">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-cyan-400 mb-4">Download Full Whitepaper</h3>
               <p className="text-gray-300 mb-6">
-                Be part of the future of gaming. Download our complete whitepaper and join our community to stay updated
-                on the latest developments.
+                Get the complete technical specifications, detailed tokenomics, and comprehensive roadmap.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600">
-                  <Download className="h-4 w-4 mr-2" />
-                  Download Full Whitepaper
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-purple-500 text-purple-400 hover:bg-purple-500/10 bg-transparent"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  View Pitch Deck
-                </Button>
-              </div>
+              <Button className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600">
+                <Download className="h-4 w-4 mr-2" />
+                Download PDF (Coming Soon)
+              </Button>
             </CardContent>
           </Card>
-
-          <div className="flex justify-center gap-6">
-            <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300">
-              <Twitter className="h-4 w-4 mr-2" />
-              Follow on Twitter
-            </Button>
-            <Button variant="ghost" size="sm" className="text-purple-400 hover:text-purple-300">
-              <MessageCircle className="h-4 w-4 mr-2" />
-              Join Discord
-            </Button>
-          </div>
         </div>
       </div>
     </div>

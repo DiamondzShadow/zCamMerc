@@ -1,12 +1,30 @@
 {
-  "name": "scam-mercenaires",
-  "version": "0.1.0",
+  "name": "scam-mercenaries",
+  "version": "2.1.0",
   "private": true,
+  "description": "SCAM Mercenaries - Cyberpunk NFT Gaming Experience by Diamondz Crews, Diamondz Shadow, and X Banks",
+  "keywords": [
+    "cyberpunk",
+    "nft",
+    "gaming",
+    "web3",
+    "blockchain",
+    "telegram-bot",
+    "scam-mercenaries",
+    "diamondz-crews",
+    "diamondz-shadow",
+    "x-banks"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scam-mercenaries/game"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "setup-bot": "node -r ts-node/register scripts/setup-telegram-bot.ts",
+    "setup-bot": "tsx scripts/setup-telegram-bot.ts",
     "start": "next start"
   },
   "dependencies": {
@@ -39,12 +57,26 @@
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10",
-    "eslint": "^8",
-    "eslint-config-next": "14.0.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4",
     "postcss": "^8.5",
-    "tailwindcss": "^3.3.0",
-    "ts-node": "^10.9.1",
+    "tailwindcss": "^3.3.6",
+    "tsx": "^4.6.2",
     "typescript": "^5"
-  }
+  },
+  "authors": [
+    {
+      "name": "Diamondz Crews",
+      "role": "CEO & Visionary"
+    },
+    {
+      "name": "Diamondz Shadow",
+      "role": "CTO & Technical Architect"
+    },
+    {
+      "name": "X Banks",
+      "role": "Mission Designer"
+    }
+  ]
 }

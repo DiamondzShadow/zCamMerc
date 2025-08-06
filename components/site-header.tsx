@@ -18,6 +18,7 @@ const navigation = [
   { name: 'NFT Transform', href: '/nft-transformation' },
   { name: 'LIONSMANE', href: '/lionsmane' },
   { name: 'Future', href: '/future' },
+  { name: 'GDD', href: '/gdd' },
   { name: 'Whitepaper', href: '/whitepaper' },
 ]
 

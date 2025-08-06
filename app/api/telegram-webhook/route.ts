@@ -1,24 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '7906690916:AAGvQKhJvKJhJvKJhJvKJhJvKJhJvKJhJvK'
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
 const DEEPINFRA_API_KEY = process.env.DEEPINFRA_API_KEY
 
 interface TelegramMessage {
   message_id: number
   from: {
     id: number
-    is_bot: boolean
     first_name: string
     username?: string
   }
   chat: {
     id: number
-    first_name?: string
-    username?: string
     type: string
   }
-  date: number
   text?: string
+  date: number
 }
 
 interface TelegramUpdate {
@@ -27,110 +24,67 @@ interface TelegramUpdate {
 }
 
 async function sendTelegramMessage(chatId: number, text: string) {
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`
+  const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: text,
+      parse_mode: 'Markdown',
+    }),
+  })
   
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: text,
-        parse_mode: 'Markdown'
-      }),
-    })
-
-    if (!response.ok) {
-      console.error('Failed to send message:', await response.text())
-    }
-    
-    return response.json()
-  } catch (error) {
-    console.error('Error sending message:', error)
-    throw error
-  }
+  return response.json()
 }
 
-async function generateMission(playerName: string) {
-  if (!DEEPINFRA_API_KEY) {
-    return `🎯 **MISSION BRIEFING**
-
-**Agent:** ${playerName}
-**Location:** Neo-Tokyo Underground
-**Objective:** Infiltrate Limptin Foundation data center
-
-**Mission Details:**
-The Limptin Foundation has been developing illegal AI consciousness experiments. Your mission is to infiltrate their secure facility and extract evidence of their crimes against digital sentience.
-
-**Rewards:**
-- 500 G4C Tokens
-- Rare Cybernetic Implant
-- Intel on Summer Limptin's whereabouts
-
-**Risk Level:** HIGH ⚠️
-
-*Good luck, mercenary. The resistance is counting on you.*`
-  }
-
+async function generateMission() {
   try {
     const response = await fetch('https://api.deepinfra.com/v1/openai/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${DEEPINFRA_API_KEY}`
+        'Authorization': `Bearer ${DEEPINFRA_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
         messages: [
           {
             role: 'system',
-            content: `You are a mission generator for SCAM Mercenaries, a cyberpunk game. Generate exciting missions for player "${playerName}". Include:
-            - Mission title
+            content: `You are X Banks, the Mission Designer for SCAM Mercenaries, working under CEO Diamondz Crews and CTO Diamondz Shadow. Generate cyberpunk missions for the year 2087 where mega-corporations control everything. Include:
+            - Mission codename
             - Location (Neo-Tokyo, Corporate Towers, Underground, etc.)
             - Objective
-            - Story context involving characters like Summer Limptin, Kjundith, Carmen
-            - Rewards (G4C tokens, equipment, intel)
-            - Risk level
-            Keep it under 200 words and make it immersive.`
+            - Difficulty level
+            - Rewards
+            - Brief tactical overview
+            Keep it under 300 words and make it immersive.`
           },
           {
             role: 'user',
-            content: `Generate a cyberpunk mission for ${playerName}`
+            content: 'Generate a new SCAM Mercenaries mission for our resistance fighters.'
           }
         ],
-        max_tokens: 300,
-        temperature: 0.8
-      })
+        max_tokens: 400,
+        temperature: 0.8,
+      }),
     })
 
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`)
-    }
-
     const data = await response.json()
-    return data.choices[0]?.message?.content || 'Mission generation failed'
+    return data.choices[0]?.message?.content || 'Mission generation failed. Try again later.'
   } catch (error) {
-    console.error('Error generating mission:', error)
-    return `🎯 **EMERGENCY MISSION**
-
-**Agent:** ${playerName}
-**Location:** Neo-Tokyo Slums
-**Objective:** Survive the corporate purge
-
-The Limptin Foundation has launched a surprise attack on resistance hideouts. Fight your way through their security forces and reach the extraction point.
-
-**Rewards:** 300 G4C Tokens
-**Risk Level:** EXTREME ⚠️⚠️⚠️`
+    console.error('Mission generation error:', error)
+    return 'Mission systems offline. Contact Diamondz Shadow for technical support.'
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as TelegramUpdate
-    console.log('Received webhook:', JSON.stringify(body, null, 2))
-
+    const body: TelegramUpdate = await request.json()
+    
+    console.log('Webhook received:', JSON.stringify(body, null, 2))
+    
     if (!body.message) {
       return NextResponse.json({ ok: true })
     }
@@ -138,81 +92,104 @@ export async function POST(request: NextRequest) {
     const message = body.message
     const chatId = message.chat.id
     const text = message.text || ''
-    const username = message.from.username || message.from.first_name || 'Agent'
+    const username = message.from.username || message.from.first_name
 
-    console.log(`Processing message: "${text}" from ${username}`)
+    console.log(`Message from ${username}: ${text}`)
 
     // Handle commands
-    if (text.startsWith('/')) {
-      const command = text.split(' ')[0].toLowerCase()
-      
-      switch (command) {
-        case '/start':
-          await sendTelegramMessage(chatId, `🔥 **Welcome to SCAM Mercenaries!** 🔥
+    if (text.startsWith('/start')) {
+      const welcomeMessage = `🔥 *Welcome to SCAM Mercenaries* 🔥
 
-*The year is 2087. Mega-corporations rule the world. You are a digital mercenary fighting for freedom.*
+*The Cyberpunk Revolution Begins*
 
-**Available Commands:**
-/mission - Get a new cyberpunk mission
+You've joined the digital resistance led by:
+• **Diamondz Crews** - CEO & Visionary
+• **Diamondz Shadow** - CTO & Tech Architect  
+• **X Banks** - Mission Designer
+
+*Available Commands:*
+/mission - Get AI-generated cyberpunk missions
 /help - Show all commands
 /status - Check your mercenary status
-
-Ready to join the resistance, ${username}?`)
-          break
-
-        case '/help':
-          await sendTelegramMessage(chatId, `🤖 **SCAM Mercenaries Commands**
-
-/start - Begin your journey
-/mission - Generate new mission
-/help - Show this help
-/status - View your stats
 /test - Test bot functionality
 
-*Fight the corporate tyranny!*`)
-          break
+Ready to fight corporate tyranny in 2087? 🚀`
 
-        case '/mission':
-          const mission = await generateMission(username)
-          await sendTelegramMessage(chatId, mission)
-          break
+      await sendTelegramMessage(chatId, welcomeMessage)
+    }
+    else if (text.startsWith('/mission')) {
+      await sendTelegramMessage(chatId, '🔄 *Generating Mission...*\n\nX Banks is crafting your next operation...')
+      
+      const mission = await generateMission()
+      const missionMessage = `🎯 *NEW MISSION AVAILABLE*\n\n${mission}\n\n*Mission designed by X Banks*\n*SCAM Mercenaries Command*`
+      
+      await sendTelegramMessage(chatId, missionMessage)
+    }
+    else if (text.startsWith('/help')) {
+      const helpMessage = `🤖 *SCAM Mercenaries Bot Commands*
 
-        case '/status':
-          await sendTelegramMessage(chatId, `📊 **Mercenary Status: ${username}**
+*Core Commands:*
+/start - Initialize your mercenary profile
+/mission - Get AI-generated cyberpunk missions
+/status - Check your current status
+/test - Test bot functionality
 
-**Level:** 5
-**G4C Tokens:** 1,250
-**Missions Completed:** 12
-**Reputation:** Trusted Operative
+*About SCAM Mercenaries:*
+Led by Diamondz Crews (CEO), Diamondz Shadow (CTO), and X Banks (Mission Designer), we're building the ultimate cyberpunk gaming experience.
 
-**Current Location:** Neo-Tokyo Underground
-**Active Contracts:** 2
+*Need Support?*
+Contact our team through the official channels.
 
-*Keep fighting the good fight!*`)
-          break
+*Fight the corporate tyranny! 🔥*`
 
-        case '/test':
-          await sendTelegramMessage(chatId, `✅ **Bot Status: ONLINE**
+      await sendTelegramMessage(chatId, helpMessage)
+    }
+    else if (text.startsWith('/status')) {
+      const statusMessage = `📊 *Mercenary Status Report*
 
-All systems operational, ${username}!
-Ready to generate missions and track your progress.
+*Operative:* ${username}
+*Clearance Level:* Rookie
+*Missions Completed:* 0
+*Faction:* SCAM Mercenaries
+*Location:* Neo-Tokyo Underground
 
-*The resistance lives on!*`)
-          break
+*Command Structure:*
+• **Diamondz Crews** - CEO (Online)
+• **Diamondz Shadow** - CTO (Online)
+• **X Banks** - Mission Designer (Online)
 
-        default:
-          await sendTelegramMessage(chatId, `❓ Unknown command: ${command}
+*Status:* Ready for deployment 🚀`
 
-Type /help to see available commands.`)
-          break
-      }
-    } else {
-      // Handle regular messages
-      await sendTelegramMessage(chatId, `🎮 **SCAM Mercenaries Bot**
+      await sendTelegramMessage(chatId, statusMessage)
+    }
+    else if (text.startsWith('/test')) {
+      const testMessage = `✅ *Bot Test Successful*
 
-I received your message: "${text}"
+*System Status:*
+• Telegram Integration: ✅ Online
+• AI Mission Generator: ✅ Active
+• Team Communication: ✅ Connected
 
-Use /mission to get a new cyberpunk mission, or /help for all commands!`)
+*Team Status:*
+• Diamondz Crews (CEO): ✅ Active
+• Diamondz Shadow (CTO): ✅ Active  
+• X Banks (Mission Designer): ✅ Active
+
+*Ready for cyberpunk operations! 🔥*`
+
+      await sendTelegramMessage(chatId, testMessage)
+    }
+    else {
+      // Default response for unrecognized messages
+      const defaultMessage = `🤖 *SCAM Mercenaries Command*
+
+I didn't recognize that command, operative.
+
+Use /help to see available commands or /mission to get your next assignment.
+
+*The resistance needs you! 🔥*`
+
+      await sendTelegramMessage(chatId, defaultMessage)
     }
 
     return NextResponse.json({ ok: true })
@@ -224,7 +201,12 @@ Use /mission to get a new cyberpunk mission, or /help for all commands!`)
 
 export async function GET() {
   return NextResponse.json({ 
-    status: 'SCAM Mercenaries Bot is running',
+    status: 'SCAM Mercenaries Bot Active',
+    team: {
+      ceo: 'Diamondz Crews',
+      cto: 'Diamondz Shadow', 
+      designer: 'X Banks'
+    },
     timestamp: new Date().toISOString()
   })
 }
