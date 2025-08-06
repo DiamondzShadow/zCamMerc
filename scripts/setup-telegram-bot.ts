@@ -1,4 +1,10 @@
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8461123970:AAEgOeT6p-wq7Wdni5w79yjFMBiHU3eqm_Y"
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+if (!BOT_TOKEN) {
+  console.error('❌ CRITICAL: TELEGRAM_BOT_TOKEN environment variable is not set.');
+  console.error('Please set your bot token in the environment variables.');
+  process.exit(1);
+}
+
 const WEBHOOK_URL = process.env.VERCEL_URL 
   ? `https://${process.env.VERCEL_URL}/api/telegram-webhook`
   : 'https://scam-mercenaires.vercel.app/api/telegram-webhook'

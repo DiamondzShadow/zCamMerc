@@ -39,8 +39,16 @@ const userSessions = new Map<number, {
   missionType: string
 }>()
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8461123970:AAEgOeT6p-wq7Wdni5w79yjFMBiHU3eqm_Y"
-const DEEPINFRA_API_KEY = process.env.DEEPINFRA_API_KEY || "5xn7PGFnCfDfGBNkNqbvzRomGIHLPduT"
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const DEEPINFRA_API_KEY = process.env.DEEPINFRA_API_KEY;
+
+if (!BOT_TOKEN) {
+  console.error('❌ TELEGRAM_BOT_TOKEN environment variable is not set');
+}
+
+if (!DEEPINFRA_API_KEY) {
+  console.error('❌ DEEPINFRA_API_KEY environment variable is not set');
+}
 
 async function sendMessage(chatId: number, text: string, replyMarkup?: any) {
   try {
