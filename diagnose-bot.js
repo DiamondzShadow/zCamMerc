@@ -113,16 +113,26 @@ if (!foundDeepInfra) {
 console.log('🤖 Bot Token Validation:');
 console.log('========================');
 
-const botToken = process.env.TELEGRAM_BOT_TOKEN || 
-  (loadEnvFile('.env.local') && loadEnvFile('.env.local').TELEGRAM_BOT_TOKEN) ||
-  (loadEnvFile('.env') && loadEnvFile('.env').TELEGRAM_BOT_TOKEN);
+const botToken = (() => {
+  if (process.env.TELEGRAM_BOT_TOKEN) {
+    return process.env.TELEGRAM_BOT_TOKEN;
+  }
+  for (const filename of envFiles) {
+    const envVars = loadEnvFile(filename);
+    if (envVars && envVars.TELEGRAM_BOT_TOKEN) {
+      return envVars.TELEGRAM_BOT_TOKEN;
+    }
+  }
+  return null;
+})();
 
 if (botToken && !botToken.includes('your_telegram_bot_token_here')) {
   console.log('🔄 Testing bot token...');
   
-  fetch(`https://api.telegram.org/bot${botToken}/getMe`)
-    .then(response => response.json())
-    .then(data => {
+  (async () => {
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/getMe`);
+      const data = await response.json();
       if (data.ok) {
         console.log('✅ Bot token is valid!');
         console.log(`   Bot name: ${data.result.first_name}`);
@@ -138,11 +148,11 @@ if (botToken && !botToken.includes('your_telegram_bot_token_here')) {
         console.log('❌ Bot token is invalid:', data.description);
         console.log('   Please check your token from @BotFather');
       }
-    })
-    .catch(error => {
+    } catch (error) {
       console.log('❌ Failed to validate bot token:', error.message);
       console.log('   Check your internet connection and token format');
-    });
+    }
+  })();
 } else {
   console.log('⏭️  Skipping validation - no valid token found');
   console.log('\n🚀 Next Steps:');
