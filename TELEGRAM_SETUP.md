@@ -4,15 +4,21 @@
 - **Bot Name**: zCam.bot
 - **Username**: @zCamMerc_bot
 - **Bot URL**: https://t.me/zCamMerc_bot
-- **Bot Token**: 8461123970:AAEgOeT6p-wq7Wdni5w79yjFMBiHU3eqm_Y
+- **Bot Token**: [SECURE - Set via environment variable]
 
 ## Setup Instructions
 
 ### 1. Environment Variables
-Add the following environment variable to your Vercel project:
+Add the following environment variables to your Vercel project:
 \`\`\`
-TELEGRAM_BOT_TOKEN=8461123970:AAEgOeT6p-wq7Wdni5w79yjFMBiHU3eqm_Y
+TELEGRAM_BOT_TOKEN=your_bot_token_here
+DEEPINFRA_API_KEY=your_deepinfra_api_key_here
 \`\`\`
+
+**⚠️ IMPORTANT SECURITY NOTE:**
+- Never commit bot tokens or API keys to source code
+- Always use environment variables for sensitive data
+- Keep your tokens secure and regenerate them if exposed
 
 ### 2. Deploy and Configure
 1. Deploy your code to Vercel
@@ -89,7 +95,7 @@ Includes fallback scenarios if AI API is unavailable
 - Consider rate limiting for production use
 \`\`\`
 
-Perfect! Your bot is now configured with the new token `8461123970:AAEgOeT6p-wq7Wdni5w79yjFMBiHU3eqm_Y` and ready to use at t.me/zCamMerc_bot.
+Perfect! Your bot is now configured and ready to use at t.me/zCamMerc_bot.
 
 ## 🚀 Next Steps:
 
