@@ -31,7 +31,7 @@ export default function SiteHeader() {
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="hidden font-bold sm:inline-block">
-              SCAM Mercenaires
+              SCAM Mercenaries
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -61,7 +61,7 @@ export default function SiteHeader() {
           </SheetTrigger>
           <SheetContent side="left" className="pr-0">
             <Link href="/" className="flex items-center">
-              <span className="font-bold">SCAM Mercenaires</span>
+              <span className="font-bold">SCAM Mercenaries</span>
             </Link>
             <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
               <div className="flex flex-col space-y-3">
@@ -84,7 +84,7 @@ export default function SiteHeader() {
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <Link href="/" className="flex items-center space-x-2 md:hidden">
-              <span className="font-bold">SCAM Mercenaires</span>
+              <span className="font-bold">SCAM Mercenaries</span>
             </Link>
           </div>
         </div>

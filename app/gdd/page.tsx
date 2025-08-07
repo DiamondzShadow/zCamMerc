@@ -1,437 +1,402 @@
-'use client'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Users, Target, Zap, Shield, Sword, Globe, Trophy, Coins } from 'lucide-react'
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, Target, Gamepad2, Code, Zap, Shield, Sword, Brain } from 'lucide-react'
-
-export default function GameDesignDocument() {
+export default function GDDPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              SCAM Mercenaires
-            </h1>
-            <p className="text-xl text-zinc-400 mb-6">Game Design Document v2.0</p>
-            <Badge className="bg-red-600 hover:bg-red-700 text-lg px-4 py-2">
-              The Digital Resistance
-            </Badge>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4">
+            SCAM MERCENARIES
+          </h1>
+          <p className="text-xl text-gray-300 mb-6">Game Design Document</p>
+          <div className="flex justify-center gap-4 mb-8">
+            <Badge variant="secondary" className="px-4 py-2">Version 2.0</Badge>
+            <Badge variant="outline" className="px-4 py-2">Updated January 2025</Badge>
           </div>
+        </div>
 
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-8 bg-zinc-900">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="team">Core Team</TabsTrigger>
-              <TabsTrigger value="gameplay">Gameplay</TabsTrigger>
-              <TabsTrigger value="story">Story</TabsTrigger>
-              <TabsTrigger value="characters">Characters</TabsTrigger>
-              <TabsTrigger value="technical">Technical</TabsTrigger>
-              <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
-              <TabsTrigger value="monetization">Economy</TabsTrigger>
-            </TabsList>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-8 mb-8">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="team">Core Team</TabsTrigger>
+            <TabsTrigger value="gameplay">Gameplay</TabsTrigger>
+            <TabsTrigger value="story">Story</TabsTrigger>
+            <TabsTrigger value="characters">Characters</TabsTrigger>
+            <TabsTrigger value="technical">Technical</TabsTrigger>
+            <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
+            <TabsTrigger value="economy">Economy</TabsTrigger>
+          </TabsList>
 
-            {/* Overview Tab */}
-            <TabsContent value="overview" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Target className="h-6 w-6 text-red-500" />
-                    Project Vision
-                  </CardTitle>
+          {/* Overview Tab */}
+          <TabsContent value="overview" className="space-y-6">
+            <Card className="bg-slate-800/50 border-purple-500/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-cyan-400">
+                  <Globe className="h-6 w-6" />
+                  Game Vision
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-gray-300 space-y-4">
+                <p className="text-lg">
+                  SCAM Mercenaries is a revolutionary cyberpunk strategy game that combines tactical combat, 
+                  territory management, and NFT integration in a dystopian digital world.
+                </p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="text-xl font-semibold text-purple-400 mb-3">Core Pillars</h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-cyan-400" />
+                        Strategic Territory Control
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Sword className="h-4 w-4 text-cyan-400" />
+                        Dynamic Combat System
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Zap className="h-4 w-4 text-cyan-400" />
+                        AI-Powered Missions
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Trophy className="h-4 w-4 text-cyan-400" />
+                        NFT Character Evolution
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-purple-400 mb-3">Target Audience</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li>• Strategy game enthusiasts</li>
+                      <li>• Cyberpunk/Sci-fi fans</li>
+                      <li>• NFT collectors and traders</li>
+                      <li>• Competitive gamers</li>
+                      <li>• Blockchain gaming community</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Core Team Tab */}
+          <TabsContent value="team" className="space-y-6">
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="bg-gradient-to-br from-cyan-900/30 to-purple-900/30 border-cyan-500/30">
+                <CardHeader className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Users className="h-10 w-10 text-white" />
+                  </div>
+                  <CardTitle className="text-cyan-400">Diamondz Crews</CardTitle>
+                  <CardDescription className="text-purple-300">CEO & Visionary Leader</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-zinc-300 text-lg">
-                    SCAM Mercenaires is a revolutionary Web3 gaming experience that combines immersive storytelling, 
-                    strategic gameplay, and cutting-edge NFT technology to create a digital resistance movement 
-                    against corporate tyranny in the metaverse.
+                <CardContent className="text-center text-gray-300">
+                  <p className="mb-4">
+                    Visionary leader driving the strategic direction of SCAM Mercenaries. 
+                    Expert in blockchain gaming and community building.
                   </p>
-                  
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Core Pillars</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Narrative-driven missions with real consequences</li>
-                        <li>• Dynamic NFT evolution and transformation</li>
-                        <li>• Strategic territory control and resource management</li>
-                        <li>• Community-driven resistance movement</li>
-                        <li>• AI-powered mission generation</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Target Audience</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Web3 gaming enthusiasts</li>
-                        <li>• NFT collectors and traders</li>
-                        <li>• Strategy game players</li>
-                        <li>• Cyberpunk and sci-fi fans</li>
-                        <li>• Community builders and activists</li>
-                      </ul>
-                    </div>
+                  <div className="space-y-2">
+                    <Badge variant="secondary">Strategic Planning</Badge>
+                    <Badge variant="secondary">Community Leadership</Badge>
+                    <Badge variant="secondary">Blockchain Gaming</Badge>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
 
-            {/* Core Team Tab */}
-            <TabsContent value="team" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Users className="h-6 w-6 text-red-500" />
-                    Core Development Team
-                  </CardTitle>
+              <Card className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-purple-500/30">
+                <CardHeader className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Zap className="h-10 w-10 text-white" />
+                  </div>
+                  <CardTitle className="text-purple-400">Diamondz Shadow</CardTitle>
+                  <CardDescription className="text-pink-300">CTO & Technical Architect</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <Users className="h-12 w-12 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-red-400 mb-2">Diamondz Crews</h3>
-                      <p className="text-zinc-400 mb-3">CEO & Visionary Leader</p>
-                      <p className="text-sm text-zinc-300">
-                        Mastermind behind the SCAM Mercenaires universe. Leads strategic vision, 
-                        narrative development, and community building initiatives.
-                      </p>
-                    </div>
-                    
-                    <div className="text-center">
-                      <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <Code className="h-12 w-12 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-blue-400 mb-2">Diamondz Shadow</h3>
-                      <p className="text-zinc-400 mb-3">CTO & Technical Architect</p>
-                      <p className="text-sm text-zinc-300">
-                        Technical genius responsible for blockchain integration, smart contracts, 
-                        and the revolutionary LIONSMANE NFT technology.
-                      </p>
-                    </div>
-                    
-                    <div className="text-center">
-                      <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <Brain className="h-12 w-12 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-green-400 mb-2">X Banks</h3>
-                      <p className="text-zinc-400 mb-3">Mission Designer & Narrative Expert</p>
-                      <p className="text-sm text-zinc-300">
-                        Creative force behind mission design, character development, and the 
-                        immersive storylines that drive the resistance movement.
-                      </p>
-                    </div>
+                <CardContent className="text-center text-gray-300">
+                  <p className="mb-4">
+                    Technical mastermind behind the game's architecture. Specializes in 
+                    blockchain integration and scalable game systems.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary">Blockchain Development</Badge>
+                    <Badge variant="secondary">System Architecture</Badge>
+                    <Badge variant="secondary">Smart Contracts</Badge>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
 
-            {/* Gameplay Tab */}
-            <TabsContent value="gameplay" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Gamepad2 className="h-6 w-6 text-red-500" />
-                    Core Gameplay Mechanics
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Mission System</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• AI-generated dynamic missions</li>
-                        <li>• Multiple difficulty levels and approaches</li>
-                        <li>• Real-time consequences and branching narratives</li>
-                        <li>• Team-based cooperative missions</li>
-                        <li>• Solo infiltration challenges</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Character Progression</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Skill-based advancement system</li>
-                        <li>• Specialization paths (Hacker, Infiltrator, Combat)</li>
-                        <li>• Equipment and weapon upgrades</li>
-                        <li>• Reputation system with factions</li>
-                        <li>• Achievement and badge collection</li>
-                      </ul>
-                    </div>
+              <Card className="bg-gradient-to-br from-green-900/30 to-cyan-900/30 border-green-500/30">
+                <CardHeader className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-cyan-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Target className="h-10 w-10 text-white" />
                   </div>
-                  
+                  <CardTitle className="text-green-400">X Banks</CardTitle>
+                  <CardDescription className="text-cyan-300">Mission Designer & Narrative Expert</CardDescription>
+                </CardHeader>
+                <CardContent className="text-center text-gray-300">
+                  <p className="mb-4">
+                    Creative force behind the game's missions and storyline. Expert in 
+                    narrative design and player engagement systems.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary">Mission Design</Badge>
+                    <Badge variant="secondary">Narrative Writing</Badge>
+                    <Badge variant="secondary">Player Experience</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Gameplay Tab */}
+          <TabsContent value="gameplay" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-slate-800/50 border-cyan-500/20">
+                <CardHeader>
+                  <CardTitle className="text-cyan-400">Core Mechanics</CardTitle>
+                </CardHeader>
+                <CardContent className="text-gray-300 space-y-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-3 text-red-400">Territory Control</h3>
-                    <p className="text-zinc-300 mb-4">
-                      Players can claim and defend territories across the global map, establishing safe houses, 
-                      resource nodes, and strategic outposts for the resistance movement.
-                    </p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-zinc-800 p-4 rounded-lg text-center">
-                        <Shield className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                        <p className="text-sm">Defense</p>
-                      </div>
-                      <div className="bg-zinc-800 p-4 rounded-lg text-center">
-                        <Zap className="h-8 w-8 text-yellow-400 mx-auto mb-2" />
-                        <p className="text-sm">Resources</p>
-                      </div>
-                      <div className="bg-zinc-800 p-4 rounded-lg text-center">
-                        <Users className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                        <p className="text-sm">Alliances</p>
-                      </div>
-                      <div className="bg-zinc-800 p-4 rounded-lg text-center">
-                        <Sword className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                        <p className="text-sm">Combat</p>
-                      </div>
-                    </div>
+                    <h4 className="font-semibold text-purple-400 mb-2">Territory Control</h4>
+                    <p className="text-sm">Players claim and defend territories across the digital world, earning resources and strategic advantages.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-400 mb-2">Mission System</h4>
+                    <p className="text-sm">AI-generated missions provide endless content with dynamic objectives and rewards.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-400 mb-2">Character Progression</h4>
+                    <p className="text-sm">Mercenaries evolve through combat, gaining new abilities and transforming into unique NFTs.</p>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
 
-            {/* Story Tab */}
-            <TabsContent value="story" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card className="bg-slate-800/50 border-purple-500/20">
                 <CardHeader>
-                  <CardTitle>The Resistance Saga</CardTitle>
+                  <CardTitle className="text-purple-400">Combat System</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="prose prose-invert max-w-none">
-                    <h3 className="text-red-400">The Limptin Foundation's Rise</h3>
-                    <p className="text-zinc-300">
-                      In 2024, the Limptin Foundation emerged as a seemingly benevolent tech corporation, 
-                      promising to revolutionize human connection through advanced metaverse technology. 
-                      Led by the ruthless Real Hates, they secretly developed SCAM nanobots - microscopic 
-                      devices capable of mind control and behavioral manipulation.
-                    </p>
-                    
-                    <h3 className="text-red-400">The LIONSMANE Discovery</h3>
-                    <p className="text-zinc-300">
-                      Dr. Nwgeua, a brilliant renewable energy researcher in Johannesburg, accidentally 
-                      discovered the antidote to SCAM nanobots while working on sustainable energy solutions. 
-                      His research led to the creation of LIONSMANE NFTs - digital entities with the power 
-                      to neutralize mind control technology.
-                    </p>
-                    
-                    <h3 className="text-red-400">The Resistance Forms</h3>
-                    <p className="text-zinc-300">
-                      After Nwgeua's assassination by Foundation agents, his brother Kjundith joined forces 
-                      with Summer Limptin (a reformed family member), Carmen (a reformed scammer), and 
-                      Neds (an Australian oil rig mechanic) to form the SCAM Mercenaires - a global 
-                      resistance movement dedicated to exposing the truth and liberating humanity.
-                    </p>
+                <CardContent className="text-gray-300 space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Turn-Based Strategy</h4>
+                    <p className="text-sm">Tactical combat with positioning, abilities, and environmental factors.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Weapon Mastery</h4>
+                    <p className="text-sm">Four weapon classes: Pulse Rifles, Ghost Blades, Disruptors, and LIONSMANE tech.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Team Synergy</h4>
+                    <p className="text-sm">Character combinations unlock powerful team abilities and strategies.</p>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
+            </div>
+          </TabsContent>
 
-            {/* Characters Tab */}
-            <TabsContent value="characters" className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="bg-zinc-900 border-zinc-800">
-                  <CardHeader>
-                    <CardTitle className="text-green-400">Heroes of the Resistance</CardTitle>
+          {/* Story Tab */}
+          <TabsContent value="story" className="space-y-6">
+            <Card className="bg-slate-800/50 border-purple-500/20">
+              <CardHeader>
+                <CardTitle className="text-purple-400">The Digital Uprising</CardTitle>
+                <CardDescription>Year 2087 - The World After the Great Collapse</CardDescription>
+              </CardHeader>
+              <CardContent className="text-gray-300 space-y-4">
+                <p>
+                  In 2087, the digital and physical worlds have merged into a chaotic landscape where 
+                  mega-corporations control reality through advanced AI systems. The SCAM Mercenaries 
+                  emerge as elite operatives fighting for freedom in this cyberpunk dystopia.
+                </p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-3">Key Factions</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong className="text-purple-400">LIONSMANE Corp:</strong> Dominant tech conglomerate</li>
+                      <li><strong className="text-purple-400">The Resistance:</strong> Underground freedom fighters</li>
+                      <li><strong className="text-purple-400">Digital Nomads:</strong> Independent hackers</li>
+                      <li><strong className="text-purple-400">Corporate Security:</strong> Elite enforcement units</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-3">Major Locations</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong className="text-purple-400">Neo-Tokyo:</strong> Neon-lit megacity</li>
+                      <li><strong className="text-purple-400">Digital Nexus:</strong> Virtual reality hub</li>
+                      <li><strong className="text-purple-400">The Undercity:</strong> Hidden resistance base</li>
+                      <li><strong className="text-purple-400">Corporate Towers:</strong> LIONSMANE headquarters</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Characters Tab */}
+          <TabsContent value="characters" className="space-y-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { name: 'Carmen', role: 'Hacker', specialty: 'Digital Infiltration', rarity: 'Legendary' },
+                { name: 'Kjundith', role: 'Warrior', specialty: 'Close Combat', rarity: 'Epic' },
+                { name: 'Neds', role: 'Sniper', specialty: 'Long Range', rarity: 'Rare' },
+                { name: 'Summer Limptin', role: 'Medic', specialty: 'Support', rarity: 'Epic' },
+              ].map((char) => (
+                <Card key={char.name} className="bg-slate-800/50 border-cyan-500/20">
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full mx-auto mb-2"></div>
+                    <CardTitle className="text-cyan-400 text-lg">{char.name}</CardTitle>
+                    <CardDescription className="text-purple-300">{char.role}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="border-l-4 border-green-500 pl-4">
-                        <h4 className="font-bold">Summer Limptin</h4>
-                        <p className="text-sm text-zinc-400">Reformed family member with hybrid weapon codes</p>
-                      </div>
-                      <div className="border-l-4 border-green-500 pl-4">
-                        <h4 className="font-bold">Kjundith</h4>
-                        <p className="text-sm text-zinc-400">Brother of Dr. Nwgeua, NFT research specialist</p>
-                      </div>
-                      <div className="border-l-4 border-green-500 pl-4">
-                        <h4 className="font-bold">Carmen</h4>
-                        <p className="text-sm text-zinc-400">Reformed scammer, infiltration expert</p>
-                      </div>
-                      <div className="border-l-4 border-green-500 pl-4">
-                        <h4 className="font-bold">Neds</h4>
-                        <p className="text-sm text-zinc-400">Oil rig mechanic, surveillance specialist</p>
-                      </div>
-                    </div>
+                  <CardContent className="text-center">
+                    <p className="text-sm text-gray-300 mb-3">{char.specialty}</p>
+                    <Badge variant={char.rarity === 'Legendary' ? 'default' : 'secondary'}>
+                      {char.rarity}
+                    </Badge>
                   </CardContent>
                 </Card>
+              ))}
+            </div>
+          </TabsContent>
 
-                <Card className="bg-zinc-900 border-zinc-800">
+          {/* Technical Tab */}
+          <TabsContent value="technical" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-slate-800/50 border-green-500/20">
+                <CardHeader>
+                  <CardTitle className="text-green-400">Technology Stack</CardTitle>
+                </CardHeader>
+                <CardContent className="text-gray-300 space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-cyan-400">Frontend</h4>
+                    <p className="text-sm">Next.js 15, React 19, TypeScript, Tailwind CSS</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400">Backend</h4>
+                    <p className="text-sm">Node.js, PostgreSQL, Vercel deployment</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400">Blockchain</h4>
+                    <p className="text-sm">Ethereum, Smart Contracts, NFT integration</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400">AI Integration</h4>
+                    <p className="text-sm">DeepInfra API, Dynamic mission generation</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/50 border-blue-500/20">
+                <CardHeader>
+                  <CardTitle className="text-blue-400">Architecture</CardTitle>
+                </CardHeader>
+                <CardContent className="text-gray-300 space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-purple-400">Scalability</h4>
+                    <p className="text-sm">Microservices architecture for handling thousands of concurrent players</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-400">Security</h4>
+                    <p className="text-sm">End-to-end encryption, secure wallet integration</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-purple-400">Performance</h4>
+                    <p className="text-sm">Optimized for 60fps gameplay with real-time updates</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Roadmap Tab */}
+          <TabsContent value="roadmap" className="space-y-6">
+            <div className="space-y-6">
+              {[
+                { phase: 'Phase 1', title: 'Foundation', progress: 85, status: 'In Progress', items: ['Core gameplay mechanics', 'Character system', 'Basic UI/UX'] },
+                { phase: 'Phase 2', title: 'AI Integration', progress: 60, status: 'In Progress', items: ['Mission generator', 'Telegram bot', 'Dynamic content'] },
+                { phase: 'Phase 3', title: 'NFT System', progress: 30, status: 'Planning', items: ['Character NFTs', 'Marketplace', 'Trading system'] },
+                { phase: 'Phase 4', title: 'Multiplayer', progress: 10, status: 'Future', items: ['PvP battles', 'Guild system', 'Tournaments'] },
+              ].map((phase) => (
+                <Card key={phase.phase} className="bg-slate-800/50 border-purple-500/20">
                   <CardHeader>
-                    <CardTitle className="text-red-400">Forces of Oppression</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="border-l-4 border-red-500 pl-4">
-                        <h4 className="font-bold">Real Hates</h4>
-                        <p className="text-sm text-zinc-400">Ruthless leader of the Limptin Foundation</p>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <CardTitle className="text-purple-400">{phase.phase}: {phase.title}</CardTitle>
+                        <CardDescription>Status: {phase.status}</CardDescription>
                       </div>
-                      <div className="border-l-4 border-yellow-500 pl-4">
-                        <h4 className="font-bold">General Ramon</h4>
-                        <p className="text-sm text-zinc-400">Assimilated by self-aware LIONSMANE NFT</p>
-                      </div>
+                      <Badge variant={phase.status === 'In Progress' ? 'default' : 'secondary'}>
+                        {phase.progress}% Complete
+                      </Badge>
                     </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Progress value={phase.progress} className="mb-4" />
+                    <ul className="text-sm text-gray-300 space-y-1">
+                      {phase.items.map((item, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </CardContent>
                 </Card>
-              </div>
-            </TabsContent>
+              ))}
+            </div>
+          </TabsContent>
 
-            {/* Technical Tab */}
-            <TabsContent value="technical" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
+          {/* Economy Tab */}
+          <TabsContent value="economy" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-slate-800/50 border-yellow-500/20">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Code className="h-6 w-6 text-red-500" />
-                    Technical Architecture
+                  <CardTitle className="flex items-center gap-2 text-yellow-400">
+                    <Coins className="h-6 w-6" />
+                    Token Economy
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Frontend Stack</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Next.js 14 with App Router</li>
-                        <li>• TypeScript for type safety</li>
-                        <li>• Tailwind CSS for styling</li>
-                        <li>• Shadcn/ui component library</li>
-                        <li>• Framer Motion for animations</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Backend & Blockchain</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Vercel for hosting and deployment</li>
-                        <li>• Neon PostgreSQL database</li>
-                        <li>• Ethereum blockchain integration</li>
-                        <li>• IPFS for NFT metadata storage</li>
-                        <li>• Web3.js for blockchain interactions</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
+                <CardContent className="text-gray-300 space-y-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-3 text-red-400">AI Integration</h3>
-                    <ul className="space-y-2 text-zinc-300">
-                      <li>• DeepInfra API for mission generation</li>
-                      <li>• Telegram Bot API for community interaction</li>
-                      <li>• Dynamic storyline adaptation</li>
-                      <li>• Procedural content generation</li>
+                    <h4 className="font-semibold text-cyan-400 mb-2">SCAM Token</h4>
+                    <p className="text-sm">Primary in-game currency for transactions, upgrades, and rewards.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Earning Mechanisms</h4>
+                    <ul className="text-sm space-y-1">
+                      <li>• Mission completion rewards</li>
+                      <li>• Territory control bonuses</li>
+                      <li>• PvP tournament prizes</li>
+                      <li>• NFT trading commissions</li>
                     </ul>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
 
-            {/* Roadmap Tab */}
-            <TabsContent value="roadmap" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card className="bg-slate-800/50 border-purple-500/20">
                 <CardHeader>
-                  <CardTitle>Development Roadmap</CardTitle>
+                  <CardTitle className="flex items-center gap-2 text-purple-400">
+                    <Trophy className="h-6 w-6" />
+                    NFT Marketplace
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-bold text-green-400">Phase 1: Foundation (Q1 2024)</h3>
-                        <Badge className="bg-green-600">COMPLETED</Badge>
-                      </div>
-                      <Progress value={100} className="mb-2" />
-                      <ul className="text-sm text-zinc-300 space-y-1">
-                        <li>✅ Core website and storyline</li>
-                        <li>✅ Character system and progression</li>
-                        <li>✅ Mission simulator prototype</li>
-                        <li>✅ Basic NFT integration</li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-bold text-yellow-400">Phase 2: Community (Q2 2024)</h3>
-                        <Badge className="bg-yellow-600">IN PROGRESS</Badge>
-                      </div>
-                      <Progress value={75} className="mb-2" />
-                      <ul className="text-sm text-zinc-300 space-y-1">
-                        <li>✅ Telegram bot integration</li>
-                        <li>✅ AI mission generation</li>
-                        <li>🔄 Territory management system</li>
-                        <li>⏳ Multiplayer missions</li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-bold text-blue-400">Phase 3: Expansion (Q3 2024)</h3>
-                        <Badge className="bg-blue-600">PLANNED</Badge>
-                      </div>
-                      <Progress value={25} className="mb-2" />
-                      <ul className="text-sm text-zinc-300 space-y-1">
-                        <li>⏳ Advanced NFT transformations</li>
-                        <li>⏳ Guild system and alliances</li>
-                        <li>⏳ Mobile app development</li>
-                        <li>⏳ Marketplace integration</li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-bold text-purple-400">Phase 4: Evolution (Q4 2024)</h3>
-                        <Badge className="bg-purple-600">FUTURE</Badge>
-                      </div>
-                      <Progress value={0} className="mb-2" />
-                      <ul className="text-sm text-zinc-300 space-y-1">
-                        <li>⏳ VR/AR integration</li>
-                        <li>⏳ Cross-chain compatibility</li>
-                        <li>⏳ DAO governance system</li>
-                        <li>⏳ Global tournaments</li>
-                      </ul>
-                    </div>
+                <CardContent className="text-gray-300 space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Character NFTs</h4>
+                    <p className="text-sm">Unique mercenaries with evolving stats and rare abilities.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Weapon NFTs</h4>
+                    <p className="text-sm">Legendary weapons with special effects and upgrade paths.</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-cyan-400 mb-2">Territory Deeds</h4>
+                    <p className="text-sm">Ownership certificates for prime digital real estate.</p>
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
-
-            {/* Monetization Tab */}
-            <TabsContent value="monetization" className="space-y-6">
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle>Economic Model</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Revenue Streams</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• LIONSMANE NFT sales and royalties</li>
-                        <li>• Premium mission packs</li>
-                        <li>• Character customization items</li>
-                        <li>• Territory expansion licenses</li>
-                        <li>• Tournament entry fees</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-3 text-red-400">Player Economy</h3>
-                      <ul className="space-y-2 text-zinc-300">
-                        <li>• Earn tokens through missions</li>
-                        <li>• Trade NFTs on marketplace</li>
-                        <li>• Stake tokens for territory control</li>
-                        <li>• Reward system for community contributions</li>
-                        <li>• Scholarship programs for new players</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-zinc-800 p-6 rounded-lg">
-                    <h3 className="text-xl font-bold mb-3 text-red-400">Sustainability Model</h3>
-                    <p className="text-zinc-300">
-                      Our economic model is designed for long-term sustainability, with 70% of revenue 
-                      reinvested into development, 20% allocated to community rewards, and 10% reserved 
-                      for team operations. This ensures continuous growth while maintaining fair 
-                      distribution of value to all stakeholders.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
