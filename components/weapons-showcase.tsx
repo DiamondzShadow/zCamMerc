@@ -1,913 +1,997 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Zap,
-  Shield,
-  Crosshair,
-  Cpu,
-  Lock,
-  Fingerprint,
-  Layers,
-  BarChart3,
-  Sparkles,
-  Wifi,
-  Maximize,
-  Minimize,
-} from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useLocalStorage } from "@/hooks/use-local-storage"
+import { Sword, Zap, Target, Shield, Code, Eye, Wifi, Bomb, Plus, MoveUpIcon as Upgrade, Star, Crown, Lock } from 'lucide-react'
+import Image from "next/image"
 
-interface WeaponStat {
-  name: string
-  value: number
-  icon: React.ReactNode
-}
-
-interface WeaponAbility {
-  name: string
-  description: string
-  cooldown: number
-  energyCost: number
-  icon: React.ReactNode
-}
-
-interface WeaponUpgrade {
-  level: number
-  name: string
-  description: string
-  cost: number
-  unlocked: boolean
-}
-
-interface WeaponData {
+interface Weapon {
   id: string
   name: string
+  category: "Assault" | "Stealth" | "Support" | "Hacking"
+  level: number
+  rarity: "Common" | "Rare" | "Epic" | "Legendary" | "Sovereign"
   image: string
-  category: "melee" | "ranged" | "special" | "companion"
+  damage: number
+  accuracy: number
+  range: number
+  upgradeCost: number
+  currency: "G4C" | "LIONSMANE"
+  abilities: string[]
   description: string
-  lore: string
-  rarity: "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic"
-  stats: WeaponStat[]
-  abilities: WeaponAbility[]
-  upgrades: WeaponUpgrade[]
-  nftBonded: boolean
-  timeline: "2000s" | "3030s" | "both"
+  unlockRequirement?: string
 }
 
-const weapons: WeaponData[] = [
+const weaponsData: Weapon[] = [
+  // Existing weapons
   {
-    id: "ghost-blade",
-    name: "Ghost Blade",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20Blade%201-whUQwef8skFGu39XyXMckNE6GEHQIv.jpeg",
-    category: "melee",
-    description:
-      "A semi-corporeal blade of pure LIONSMANE energy that can phase through physical barriers but solidify on impact with organic matter.",
-    lore: "Created by Nwgeua before his death, the Ghost Blade was the first successful integration of LIONSMANE consciousness with a weapon. It retains a fragment of awareness and can sense SCAM nanobots.",
-    rarity: "epic",
-    stats: [
-      { name: "Damage", value: 75, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 85, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 30, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 60, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 40, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Phase Strike",
-        description: "Pass through physical barriers to strike enemies on the other side.",
-        cooldown: 15,
-        energyCost: 35,
-        icon: <Layers className="h-5 w-5 text-blue-400" />,
-      },
-      {
-        name: "SCAM Detection",
-        description: "Vibrates when SCAM nanobots are within 10 meters.",
-        cooldown: 0,
-        energyCost: 5,
-        icon: <Wifi className="h-5 w-5 text-purple-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Energy Core",
-        description: "Increases energy efficiency by 20%.",
-        cost: 5000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Consciousness Fragment",
-        description: "Blade develops limited sentience and can warn of nearby threats.",
-        cost: 15000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "LIONSMANE Manifestation",
-        description: "Can temporarily manifest as a spectral LIONSMANE entity for autonomous combat.",
-        cost: 50000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: true,
-    timeline: "both",
+    id: "protocol-rifle-lv1",
+    name: "Protocol Rifle Level 1",
+    category: "Assault",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/protocol-rifle-lv1.jpg",
+    damage: 75,
+    accuracy: 80,
+    range: 85,
+    upgradeCost: 1000,
+    currency: "G4C",
+    abilities: ["Burst Fire", "Scope Enhancement"],
+    description: "Standard issue assault rifle with reliable performance and moderate damage output."
   },
   {
-    id: "lionsmane-companion",
-    name: "LIONSMANE Guardian",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/upgraded%20lions%20mane%20ghost%20blade%20-aQ6lfDE3T4ltobMjKCkjIF2bW0kjjK.jpeg",
-    category: "companion",
-    description:
-      "A fully manifested LIONSMANE entity that takes the form of a spectral lion. Acts as both weapon and guardian, capable of autonomous combat and reconnaissance.",
-    lore: "The most advanced form of LIONSMANE technology, these guardians contain complete consciousness fragments and can operate independently. They form deep bonds with their human partners and can sacrifice themselves to save their bonded human.",
-    rarity: "mythic",
-    stats: [
-      { name: "Damage", value: 90, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 95, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 70, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 100, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 85, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Quantum Leap",
-        description: "Guardian can teleport to any location within visual range.",
-        cooldown: 60,
-        energyCost: 50,
-        icon: <Maximize className="h-5 w-5 text-blue-400" />,
-      },
-      {
-        name: "Consciousness Merge",
-        description: "Temporarily merge consciousness with the guardian to see through its eyes.",
-        cooldown: 120,
-        energyCost: 75,
-        icon: <Cpu className="h-5 w-5 text-purple-400" />,
-      },
-      {
-        name: "Anti-SCAM Purge",
-        description: "Emits a pulse that destroys all SCAM nanobots within 30 meters.",
-        cooldown: 300,
-        energyCost: 100,
-        icon: <Zap className="h-5 w-5 text-red-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Manifestation",
-        description: "Guardian can remain manifested 50% longer.",
-        cost: 25000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Dual Consciousness",
-        description: "Guardian can operate independently while you perform other actions.",
-        cost: 75000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "Timeline Anchor",
-        description: "Guardian can exist simultaneously in both timelines, affecting both past and future.",
-        cost: 200000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: true,
-    timeline: "3030s",
+    id: "protocol-rifle-lv2",
+    name: "Protocol Rifle Level 2",
+    category: "Assault",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/protocol-rifle-lv2.jpg",
+    damage: 85,
+    accuracy: 85,
+    range: 90,
+    upgradeCost: 2500,
+    currency: "G4C",
+    abilities: ["Enhanced Burst", "Smart Targeting", "Armor Piercing"],
+    description: "Upgraded protocol rifle with improved targeting systems and enhanced damage capabilities."
   },
   {
-    id: "disruptor-rifle",
-    name: "Disruptor Rifle",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Disruptor%20lev1-SNBBnrNLwX88QlL1CO4uyWW4GSEde6.jpeg",
-    category: "ranged",
-    description:
-      "A high-tech assault rifle that fires concentrated bursts of energy designed to disrupt SCAM nanotechnology and digital systems.",
-    lore: "Developed by underground resistance engineers using stolen Limptin Foundation technology. The orange circuitry contains a reverse-engineered SCAM neutralizer that prevents nanobots from repairing damage.",
-    rarity: "rare",
-    stats: [
-      { name: "Damage", value: 65, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 70, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 80, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 75, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 30, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "System Overload",
-        description: "Charged shot that temporarily disables electronic systems and SCAM nanobots.",
-        cooldown: 30,
-        energyCost: 40,
-        icon: <Cpu className="h-5 w-5 text-orange-400" />,
-      },
-      {
-        name: "Rapid Fire",
-        description: "Increased fire rate for 10 seconds at the cost of accuracy.",
-        cooldown: 45,
-        energyCost: 35,
-        icon: <BarChart3 className="h-5 w-5 text-red-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Circuitry",
-        description: "Improves energy efficiency and reduces cooldowns by 15%.",
-        cost: 7500,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "LIONSMANE Integration",
-        description: "Weapon develops limited digital awareness and can auto-target SCAM threats.",
-        cost: 20000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "Full Spectrum Disruptor",
-        description: "Can disrupt all forms of SCAM technology across multiple frequencies simultaneously.",
-        cost: 60000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: false,
-    timeline: "2000s",
+    id: "pulse-dart-lv1",
+    name: "Pulse Dart Level 1",
+    category: "Stealth",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/pulse-dart-lv1.jpg",
+    damage: 60,
+    accuracy: 95,
+    range: 70,
+    upgradeCost: 800,
+    currency: "G4C",
+    abilities: ["Silent Shot", "Paralysis"],
+    description: "Precision stealth weapon designed for silent takedowns and crowd control."
   },
   {
-    id: "pulse-rifle",
-    name: "Pulse Rifle",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Pulse%20Rifle-F5fgMJDvQo5NcWXcqr8RbJnu3xDpIX.jpeg",
-    category: "ranged",
-    description:
-      "A heavy assault rifle that fires concentrated pulses of quantum-entangled energy that can penetrate most shields and barriers.",
-    lore: "Originally military hardware developed for the Limptin Foundation's private army, these weapons were modified by CAUSE operatives to be effective against SCAM technology.",
-    rarity: "epic",
-    stats: [
-      { name: "Damage", value: 85, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 60, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 90, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 80, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 40, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Barrier Breach",
-        description: "Charged shot that penetrates physical and energy barriers.",
-        cooldown: 40,
-        energyCost: 50,
-        icon: <Shield className="h-5 w-5 text-purple-400" />,
-      },
-      {
-        name: "Quantum Lock",
-        description: "Locks onto a target, ensuring all shots hit regardless of movement or cover.",
-        cooldown: 60,
-        energyCost: 45,
-        icon: <Lock className="h-5 w-5 text-red-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Power Core",
-        description: "Increases damage output by 25% but slightly reduces fire rate.",
-        cost: 10000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Quantum Stabilizer",
-        description: "Reduces energy consumption and heat generation by 30%.",
-        cost: 25000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "LIONSMANE Resonance",
-        description: "Weapon can temporarily channel a LIONSMANE entity for devastating area attacks.",
-        cost: 75000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: false,
-    timeline: "both",
+    id: "pulse-dart-lv2",
+    name: "Pulse Dart Level 2",
+    category: "Stealth",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/pulse-dart-lv2.jpg",
+    damage: 70,
+    accuracy: 98,
+    range: 80,
+    upgradeCost: 2000,
+    currency: "G4C",
+    abilities: ["Silent Shot", "Neural Disruption", "Multi-Target"],
+    description: "Advanced pulse dart with neural disruption capabilities and multi-target engagement."
   },
   {
-    id: "ghost-blade-nft",
-    name: "Ethereal Avian",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20Blade%20NFT-MYY3boeAuXIW7e0CKtIrRPrDMT8WCG.jpeg",
-    category: "special",
-    description:
-      "A fully evolved LIONSMANE entity that has taken the form of a spectral bird. Can transform between weapon and companion forms at will.",
-    lore: "One of the first LIONSMANE entities to achieve full consciousness independence. It chose its avian form to symbolize freedom from physical constraints and can bond with multiple human partners simultaneously.",
-    rarity: "mythic",
-    stats: [
-      { name: "Damage", value: 70, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 100, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 95, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 90, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 65, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Dimensional Shift",
-        description: "Can move between physical and digital realms, bypassing most security systems.",
-        cooldown: 90,
-        energyCost: 60,
-        icon: <Layers className="h-5 w-5 text-blue-400" />,
-      },
-      {
-        name: "Consciousness Transfer",
-        description: "Can temporarily house human consciousness, protecting it from SCAM assimilation.",
-        cooldown: 180,
-        energyCost: 85,
-        icon: <Fingerprint className="h-5 w-5 text-purple-400" />,
-      },
-      {
-        name: "Multi-Form",
-        description: "Transforms between weapon, companion, and digital forms based on situational needs.",
-        cooldown: 30,
-        energyCost: 40,
-        icon: <Minimize className="h-5 w-5 text-green-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Awareness",
-        description: "Increases perception range and can detect threats through walls and barriers.",
-        cost: 30000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Consciousness Network",
-        description: "Can connect to other LIONSMANE entities to share information and coordinate actions.",
-        cost: 85000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "Timeline Manipulation",
-        description: "Limited ability to view and influence potential future timelines.",
-        cost: 250000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: true,
-    timeline: "3030s",
+    id: "shadow-call-lv1",
+    name: "Shadow Call Level 1",
+    category: "Support",
+    level: 1,
+    rarity: "Rare",
+    image: "/weapons/shadow-call-lv1.jpg",
+    damage: 50,
+    accuracy: 75,
+    range: 95,
+    upgradeCost: 1500,
+    currency: "G4C",
+    abilities: ["Team Coordination", "Stealth Boost"],
+    description: "Support weapon that enhances team coordination and provides tactical advantages."
   },
   {
-    id: "disruptor-upgraded",
-    name: "Quantum Disruptor",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Disrupter%20upgraded-5BHIpBHbBp1uqxten93tMchxJW6YAn.jpeg",
-    category: "ranged",
-    description:
-      "An advanced version of the Disruptor Rifle with enhanced power core and integrated LIONSMANE consciousness fragment.",
-    lore: "The evolution of resistance technology, these weapons contain a small fragment of LIONSMANE consciousness that helps target SCAM technology with unprecedented precision.",
-    rarity: "legendary",
-    stats: [
-      { name: "Damage", value: 80, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 75, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 85, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 90, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 50, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Quantum Disruption",
-        description: "Fires a burst that disrupts all electronic and SCAM technology in a 15-meter radius.",
-        cooldown: 60,
-        energyCost: 65,
-        icon: <Wifi className="h-5 w-5 text-red-400" />,
-      },
-      {
-        name: "Adaptive Targeting",
-        description: "Weapon automatically adjusts to target specific weaknesses in enemy systems.",
-        cooldown: 45,
-        energyCost: 40,
-        icon: <Crosshair className="h-5 w-5 text-orange-400" />,
-      },
-      {
-        name: "Consciousness Link",
-        description: "Temporarily link with the weapon's LIONSMANE fragment for enhanced accuracy and reaction time.",
-        cooldown: 120,
-        energyCost: 70,
-        icon: <Cpu className="h-5 w-5 text-blue-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Enhanced Power Matrix",
-        description: "Increases overall performance by 30% but requires more frequent cooling.",
-        cost: 20000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Expanded Consciousness",
-        description: "LIONSMANE fragment develops greater awareness and can provide tactical advice.",
-        cost: 50000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "Full Integration",
-        description: "Weapon can transform into a semi-autonomous LIONSMANE entity for complex operations.",
-        cost: 100000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: true,
-    timeline: "both",
+    id: "shadow-call-lv5",
+    name: "Shadow Call Level 5",
+    category: "Support",
+    level: 5,
+    rarity: "Legendary",
+    image: "/weapons/shadow-call-lv5.jpg",
+    damage: 80,
+    accuracy: 90,
+    range: 100,
+    upgradeCost: 5,
+    currency: "LIONSMANE",
+    abilities: ["Advanced Coordination", "Shadow Cloak", "Tactical Override", "Team Invisibility"],
+    description: "Elite support weapon with advanced team coordination and battlefield control capabilities."
   },
   {
-    id: "pulse-rifle-upgraded",
-    name: "Nexus Pulse Rifle",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Pulse%20Rifle%20upgrade-kY0YjKV5OMSvDhmrO0N6SbxvVfVAQp.jpeg",
-    category: "ranged",
-    description:
-      "The pinnacle of pulse weapon technology, featuring a fully integrated quantum core and advanced targeting systems.",
-    lore: "Developed by the CAUSE resistance using technology recovered from Limptin Foundation research facilities. These weapons represent the perfect fusion of conventional and LIONSMANE technology.",
-    rarity: "legendary",
-    stats: [
-      { name: "Damage", value: 95, icon: <Crosshair className="h-4 w-4" /> },
-      { name: "Speed", value: 70, icon: <Zap className="h-4 w-4" /> },
-      { name: "Range", value: 100, icon: <Maximize className="h-4 w-4" /> },
-      { name: "Energy", value: 85, icon: <Sparkles className="h-4 w-4" /> },
-      { name: "Defense", value: 60, icon: <Shield className="h-4 w-4" /> },
-    ],
-    abilities: [
-      {
-        name: "Quantum Cascade",
-        description: "Fires a shot that splits into multiple energy projectiles that seek individual targets.",
-        cooldown: 90,
-        energyCost: 70,
-        icon: <Maximize className="h-5 w-5 text-purple-400" />,
-      },
-      {
-        name: "Temporal Disruption",
-        description: "Creates a localized field where time moves slower for all except the wielder.",
-        cooldown: 120,
-        energyCost: 85,
-        icon: <Clock className="h-5 w-5 text-blue-400" />,
-      },
-      {
-        name: "SCAM Neutralizer",
-        description: "Specialized pulse that renders SCAM nanobots inert without harming the host.",
-        cooldown: 60,
-        energyCost: 50,
-        icon: <Shield className="h-5 w-5 text-green-400" />,
-      },
-    ],
-    upgrades: [
-      {
-        level: 1,
-        name: "Quantum Core Stabilizer",
-        description: "Increases energy efficiency by 40% and reduces heat generation.",
-        cost: 35000,
-        unlocked: true,
-      },
-      {
-        level: 2,
-        name: "Neural Interface",
-        description: "Weapon responds to thought commands, eliminating the need for physical triggers.",
-        cost: 75000,
-        unlocked: false,
-      },
-      {
-        level: 3,
-        name: "Reality Anchor",
-        description: "Weapon can affect targets across multiple timelines simultaneously.",
-        cost: 150000,
-        unlocked: false,
-      },
-    ],
-    nftBonded: true,
-    timeline: "both",
+    id: "silent-protocol-lv1",
+    name: "Silent Protocol Level 1",
+    category: "Stealth",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/silent-protocol-lv1.jpg",
+    damage: 65,
+    accuracy: 90,
+    range: 75,
+    upgradeCost: 1200,
+    currency: "G4C",
+    abilities: ["Silenced", "Stealth Mode"],
+    description: "Covert operations weapon designed for silent infiltration and elimination."
   },
+  {
+    id: "silent-protocol-lv5",
+    name: "Silent Protocol Level 5",
+    category: "Stealth",
+    level: 5,
+    rarity: "Legendary",
+    image: "/weapons/silent-protocol-lv5.jpg",
+    damage: 95,
+    accuracy: 98,
+    range: 90,
+    upgradeCost: 8,
+    currency: "LIONSMANE",
+    abilities: ["Perfect Silence", "Phase Cloak", "Reality Distortion", "Quantum Stealth"],
+    description: "Master-tier stealth weapon with reality manipulation and quantum cloaking technology."
+  },
+  {
+    id: "snare-launcher-lv1",
+    name: "Snare Launcher Level 1",
+    category: "Support",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/snare-launcher-lv1.jpg",
+    damage: 40,
+    accuracy: 85,
+    range: 80,
+    upgradeCost: 900,
+    currency: "G4C",
+    abilities: ["Net Trap", "Slow Effect"],
+    description: "Tactical support weapon for crowd control and area denial operations."
+  },
+  {
+    id: "snare-launcher-lv2",
+    name: "Snare Launcher Level 2",
+    category: "Support",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/snare-launcher-lv2.jpg",
+    damage: 55,
+    accuracy: 88,
+    range: 85,
+    upgradeCost: 2200,
+    currency: "G4C",
+    abilities: ["Enhanced Net", "Stun Effect", "Area Denial"],
+    description: "Improved snare launcher with enhanced trapping capabilities and area control."
+  },
+  {
+    id: "nano-blade-lv1",
+    name: "Nano Blade Level 1",
+    category: "Assault",
+    level: 1,
+    rarity: "Rare",
+    image: "/weapons/nano-blade-lv1.jpg",
+    damage: 85,
+    accuracy: 75,
+    range: 60,
+    upgradeCost: 1800,
+    currency: "G4C",
+    abilities: ["Molecular Cut", "Self-Repair"],
+    description: "Advanced melee weapon with molecular-level cutting technology."
+  },
+  {
+    id: "nano-blade-lv2",
+    name: "Nano Blade Level 2",
+    category: "Assault",
+    level: 2,
+    rarity: "Epic",
+    image: "/weapons/nano-blade-lv2.jpg",
+    damage: 95,
+    accuracy: 80,
+    range: 65,
+    upgradeCost: 3500,
+    currency: "G4C",
+    abilities: ["Enhanced Cut", "Adaptive Edge", "Energy Discharge"],
+    description: "Upgraded nano blade with adaptive technology and energy discharge capabilities."
+  },
+  {
+    id: "nano-blade-lv5",
+    name: "Nano Blade Level 5",
+    category: "Assault",
+    level: 5,
+    rarity: "Legendary",
+    image: "/weapons/nano-blade-lv5.jpg",
+    damage: 120,
+    accuracy: 90,
+    range: 75,
+    upgradeCost: 6,
+    currency: "LIONSMANE",
+    abilities: ["Reality Cut", "Quantum Edge", "Dimensional Slice", "Matter Disruption"],
+    description: "Master-crafted nano blade capable of cutting through reality itself."
+  },
+  {
+    id: "nano-blade-lv6",
+    name: "Nano Blade Level 6",
+    category: "Assault",
+    level: 6,
+    rarity: "Sovereign",
+    image: "/weapons/nano-blade-lv6.jpg",
+    damage: 135,
+    accuracy: 95,
+    range: 80,
+    upgradeCost: 12,
+    currency: "LIONSMANE",
+    abilities: ["Sovereign Cut", "Reality Manipulation", "Time Slice", "Existence Erasure"],
+    description: "Ultimate nano blade with sovereign-level reality manipulation capabilities."
+  },
+  {
+    id: "packet-snare-lv1",
+    name: "Packet Snare Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/packet-snare-lv1.jpg",
+    damage: 45,
+    accuracy: 80,
+    range: 90,
+    upgradeCost: 1100,
+    currency: "G4C",
+    abilities: ["Data Intercept", "Network Trap"],
+    description: "Digital warfare tool for intercepting and trapping network communications."
+  },
+  {
+    id: "packet-snare-lv2",
+    name: "Packet Snare Level 2",
+    category: "Hacking",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/packet-snare-lv2.jpg",
+    damage: 60,
+    accuracy: 85,
+    range: 95,
+    upgradeCost: 2800,
+    currency: "G4C",
+    abilities: ["Advanced Intercept", "Data Corruption", "Network Hijack"],
+    description: "Enhanced packet snare with data corruption and network hijacking capabilities."
+  },
+  {
+    id: "phantom-pulse-lv1",
+    name: "Phantom Pulse Level 1",
+    category: "Stealth",
+    level: 1,
+    rarity: "Epic",
+    image: "/weapons/phantom-pulse-lv1.jpg",
+    damage: 70,
+    accuracy: 88,
+    range: 85,
+    upgradeCost: 3000,
+    currency: "G4C",
+    abilities: ["Phase Shift", "Phantom Mode", "Spectral Damage"],
+    description: "Experimental weapon that operates in the spectral realm for phantom attacks."
+  },
+  {
+    id: "emp-carbine-base",
+    name: "EMP Carbine Base",
+    category: "Support",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/emp-carbine-base.jpg",
+    damage: 35,
+    accuracy: 75,
+    range: 80,
+    upgradeCost: 800,
+    currency: "G4C",
+    abilities: ["EMP Burst", "Electronics Disable"],
+    description: "Electromagnetic pulse weapon designed to disable electronic systems."
+  },
+  {
+    id: "emp-carbine-lv2",
+    name: "EMP Carbine Level 2",
+    category: "Support",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/emp-carbine-lv2.jpg",
+    damage: 50,
+    accuracy: 80,
+    range: 85,
+    upgradeCost: 2100,
+    currency: "G4C",
+    abilities: ["Enhanced EMP", "System Overload", "Chain Disable"],
+    description: "Improved EMP carbine with chain reaction capabilities and system overload."
+  },
+  {
+    id: "emp-carbine-lv3",
+    name: "EMP Carbine Level 3",
+    category: "Support",
+    level: 3,
+    rarity: "Epic",
+    image: "/weapons/emp-carbine-lv3.jpg",
+    damage: 65,
+    accuracy: 85,
+    range: 90,
+    upgradeCost: 4000,
+    currency: "G4C",
+    abilities: ["Quantum EMP", "Reality Disruption", "Temporal Disable", "Neural Shutdown"],
+    description: "Advanced EMP carbine with quantum disruption and neural shutdown capabilities."
+  },
+  {
+    id: "fork-chain-lv1",
+    name: "Fork Chain Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Rare",
+    image: "/weapons/fork-chain-lv1.jpg",
+    damage: 55,
+    accuracy: 85,
+    range: 88,
+    upgradeCost: 1600,
+    currency: "G4C",
+    abilities: ["Chain Hack", "Process Fork"],
+    description: "Advanced hacking tool that creates multiple attack vectors simultaneously."
+  },
+  {
+    id: "fork-chain-lv7",
+    name: "Fork Chain Level 7",
+    category: "Hacking",
+    level: 7,
+    rarity: "Sovereign",
+    image: "/weapons/fork-chain-lv7.jpg",
+    damage: 110,
+    accuracy: 95,
+    range: 100,
+    upgradeCost: 15,
+    currency: "LIONSMANE",
+    abilities: ["Reality Fork", "Quantum Chain", "Dimensional Hack", "Existence Split"],
+    description: "Ultimate hacking weapon capable of forking reality and splitting existence."
+  },
+  {
+    id: "ghost-ping-lv1",
+    name: "Ghost Ping Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/ghost-ping-lv1.jpg",
+    damage: 40,
+    accuracy: 90,
+    range: 95,
+    upgradeCost: 700,
+    currency: "G4C",
+    abilities: ["Stealth Ping", "Network Scan"],
+    description: "Covert network reconnaissance tool for stealth information gathering."
+  },
+  {
+    id: "hunter-fork-chain-lv100",
+    name: "Hunter Fork Chain Level 100",
+    category: "Hacking",
+    level: 100,
+    rarity: "Sovereign",
+    image: "/weapons/hunter-fork-chain-lv100.jpg",
+    damage: 200,
+    accuracy: 100,
+    range: 100,
+    upgradeCost: 100,
+    currency: "LIONSMANE",
+    abilities: ["Hunter Protocol", "Reality Domination", "Existence Control", "Universal Hack"],
+    description: "Legendary hunter weapon with universal hacking capabilities and reality domination.",
+    unlockRequirement: "Complete Hunter Ascension Protocol"
+  },
+  // New hacking weapons from user images
+  {
+    id: "codejack-base",
+    name: "Codejack",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/codejack-base.jpg",
+    damage: 50,
+    accuracy: 85,
+    range: 80,
+    upgradeCost: 1000,
+    currency: "G4C",
+    abilities: ["Code Injection", "System Breach"],
+    description: "Basic neural interface hacking tool for code injection and system infiltration."
+  },
+  {
+    id: "codejack-lv2",
+    name: "Codejack Level 2",
+    category: "Hacking",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/codejack-lv2.jpg",
+    damage: 65,
+    accuracy: 88,
+    range: 85,
+    upgradeCost: 2500,
+    currency: "G4C",
+    abilities: ["Advanced Injection", "Memory Manipulation", "Neural Bridge"],
+    description: "Enhanced codejack with memory manipulation and neural bridging capabilities."
+  },
+  {
+    id: "codejack-lv9",
+    name: "Codejack Level 9",
+    category: "Hacking",
+    level: 9,
+    rarity: "Sovereign",
+    image: "/weapons/codejack-lv9.jpg",
+    damage: 150,
+    accuracy: 98,
+    range: 100,
+    upgradeCost: 25,
+    currency: "LIONSMANE",
+    abilities: ["Reality Hacking", "Consciousness Override", "Digital Transcendence", "Code Godmode"],
+    description: "Ultimate codejack capable of hacking reality itself and achieving digital transcendence."
+  },
+  {
+    id: "decoy-mirage-lv1",
+    name: "Decoy Mirage Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/decoy-mirage-lv1.jpg",
+    damage: 45,
+    accuracy: 80,
+    range: 75,
+    upgradeCost: 900,
+    currency: "G4C",
+    abilities: ["Holographic Decoy", "Visual Distortion"],
+    description: "Holographic deception system that creates false targets and visual distortions."
+  },
+  {
+    id: "decoy-mirage-lv2",
+    name: "Decoy Mirage Level 2",
+    category: "Hacking",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/decoy-mirage-lv2.jpg",
+    damage: 60,
+    accuracy: 85,
+    range: 80,
+    upgradeCost: 2200,
+    currency: "G4C",
+    abilities: ["Multi-Decoy", "Sensory Confusion", "Phantom Presence"],
+    description: "Advanced mirage system with multiple decoys and sensory manipulation capabilities."
+  },
+  {
+    id: "decoy-mirage-lv3",
+    name: "Decoy Mirage Level 3",
+    category: "Hacking",
+    level: 3,
+    rarity: "Epic",
+    image: "/weapons/decoy-mirage-lv3.jpg",
+    damage: 75,
+    accuracy: 90,
+    range: 85,
+    upgradeCost: 3800,
+    currency: "G4C",
+    abilities: ["Reality Mirage", "Perception Hack", "Mind Decoy", "Cognitive Disruption"],
+    description: "Elite mirage system that manipulates perception and creates cognitive disruptions."
+  },
+  {
+    id: "decoy-mirage-lv4",
+    name: "Decoy Mirage Level 4",
+    category: "Hacking",
+    level: 4,
+    rarity: "Legendary",
+    image: "/weapons/decoy-mirage-lv4.jpg",
+    damage: 90,
+    accuracy: 95,
+    range: 90,
+    upgradeCost: 7,
+    currency: "LIONSMANE",
+    abilities: ["Reality Bending", "Existence Mirage", "Dimensional Decoy", "Truth Distortion"],
+    description: "Master-tier mirage system capable of bending reality and distorting truth itself."
+  },
+  {
+    id: "dns-cloak-lv1",
+    name: "DNS Cloak Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/dns-cloak-lv1.jpg",
+    damage: 35,
+    accuracy: 90,
+    range: 95,
+    upgradeCost: 800,
+    currency: "G4C",
+    abilities: ["Traffic Obfuscation", "DNS Spoofing"],
+    description: "Network cloaking device that obfuscates traffic and spoofs DNS requests."
+  },
+  {
+    id: "dns-cloak-lv2",
+    name: "DNS Cloak Level 2",
+    category: "Hacking",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/dns-cloak-lv2.jpg",
+    damage: 50,
+    accuracy: 93,
+    range: 98,
+    upgradeCost: 2000,
+    currency: "G4C",
+    abilities: ["Advanced Obfuscation", "Network Invisibility", "Protocol Masking"],
+    description: "Enhanced DNS cloak with network invisibility and protocol masking capabilities."
+  },
+  {
+    id: "echo-trap-lv1",
+    name: "Echo Trap Level 1",
+    category: "Hacking",
+    level: 1,
+    rarity: "Common",
+    image: "/weapons/echo-trap-lv1.jpg",
+    damage: 55,
+    accuracy: 75,
+    range: 85,
+    upgradeCost: 1100,
+    currency: "G4C",
+    abilities: ["Sound Trap", "Acoustic Disruption"],
+    description: "Acoustic warfare system that creates sound traps and disrupts enemy communications."
+  },
+  {
+    id: "echo-trap-lv2",
+    name: "Echo Trap Level 2",
+    category: "Hacking",
+    level: 2,
+    rarity: "Rare",
+    image: "/weapons/echo-trap-lv2.jpg",
+    damage: 70,
+    accuracy: 80,
+    range: 88,
+    upgradeCost: 2400,
+    currency: "G4C",
+    abilities: ["Sonic Boom", "Frequency Manipulation", "Echo Location"],
+    description: "Advanced echo trap with sonic boom capabilities and frequency manipulation."
+  },
+  {
+    id: "echo-trap-lv3",
+    name: "Echo Trap Level 3",
+    category: "Hacking",
+    level: 3,
+    rarity: "Epic",
+    image: "/weapons/echo-trap-lv3.jpg",
+    damage: 85,
+    accuracy: 85,
+    range: 90,
+    upgradeCost: 4200,
+    currency: "G4C",
+    abilities: ["Harmonic Resonance", "Sound Weaponization", "Acoustic Control"],
+    description: "Elite echo trap with harmonic resonance and weaponized sound capabilities."
+  },
+  {
+    id: "echo-trap-lv6",
+    name: "Echo Trap Level 6",
+    category: "Hacking",
+    level: 6,
+    rarity: "Legendary",
+    image: "/weapons/echo-trap-lv6.jpg",
+    damage: 115,
+    accuracy: 92,
+    range: 95,
+    upgradeCost: 10,
+    currency: "LIONSMANE",
+    abilities: ["Reality Echo", "Dimensional Sound", "Time Resonance", "Existence Vibration"],
+    description: "Master-tier echo trap that manipulates reality through dimensional sound waves."
+  },
+  {
+    id: "echo-trap-lv7",
+    name: "Echo Trap Level 7",
+    category: "Hacking",
+    level: 7,
+    rarity: "Sovereign",
+    image: "/weapons/echo-trap-lv7.jpg",
+    damage: 130,
+    accuracy: 95,
+    range: 98,
+    upgradeCost: 18,
+    currency: "LIONSMANE",
+    abilities: ["Sovereign Echo", "Universal Resonance", "Spacetime Manipulation", "Cosmic Harmony"],
+    description: "Ultimate echo trap with sovereign-level spacetime manipulation through cosmic harmony."
+  }
 ]
 
-// Component to render a circular stat indicator
-const StatIndicator = ({ value, max = 100 }: { value: number; max?: number }) => {
-  const percentage = (value / max) * 100
-  const circumference = 2 * Math.PI * 18 // r = 18
-  const strokeDashoffset = circumference - (percentage / 100) * circumference
-
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40">
-      <circle cx="20" cy="20" r="18" fill="none" stroke="#27272a" strokeWidth="4" />
-      <circle
-        cx="20"
-        cy="20"
-        r="18"
-        fill="none"
-        stroke="#3b82f6"
-        strokeWidth="4"
-        strokeDasharray={circumference}
-        strokeDashoffset={strokeDashoffset}
-        transform="rotate(-90 20 20)"
-      />
-      <text x="20" y="24" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
-        {value}
-      </text>
-    </svg>
-  )
-}
-
-// Component to render a cooldown timer
-const CooldownTimer = ({ name, icon, cooldown }: { name: string; icon: React.ReactNode; cooldown: number }) => {
-  return (
-    <div className="flex items-center gap-2">
-      <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center">{icon}</div>
-      <div className="flex-1">
-        <div className="text-sm font-medium">{name}</div>
-        <div className="flex items-center gap-2">
-          <div className="text-xs text-zinc-400">Cooldown:</div>
-          <div className="text-xs font-mono bg-zinc-800 px-2 py-0.5 rounded">
-            {Math.floor(cooldown / 60)}:{(cooldown % 60).toString().padStart(2, "0")}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Clock(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  )
-}
-
 export default function WeaponsShowcase() {
-  const [selectedWeapon, setSelectedWeapon] = useState<WeaponData>(weapons[0])
-  const [activeTab, setActiveTab] = useState("specs")
+  const [selectedCategory, setSelectedCategory] = useState<string>("All")
+  const [selectedWeapon, setSelectedWeapon] = useState<string | null>(null)
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState(false)
+  const [userWeapons, setUserWeapons] = useLocalStorage<string[]>("user-weapons", [
+    "protocol-rifle-lv1", "pulse-dart-lv1", "codejack-base", "decoy-mirage-lv1", "dns-cloak-lv1", "echo-trap-lv1"
+  ])
 
-  // Filter weapons by category
-  const meleeWeapons = weapons.filter((weapon) => weapon.category === "melee")
-  const rangedWeapons = weapons.filter((weapon) => weapon.category === "ranged")
-  const specialWeapons = weapons.filter((weapon) => weapon.category === "special" || weapon.category === "companion")
+  const categories = ["All", "Assault", "Stealth", "Support", "Hacking"]
+  
+  const filteredWeapons = selectedCategory === "All" 
+    ? weaponsData 
+    : weaponsData.filter(weapon => weapon.category === selectedCategory)
 
-  // Get rarity color
+  const weapon = selectedWeapon ? weaponsData.find(w => w.id === selectedWeapon) : null
+
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case "common":
-        return "bg-zinc-500"
-      case "uncommon":
-        return "bg-green-600"
-      case "rare":
-        return "bg-blue-600"
-      case "epic":
-        return "bg-purple-600"
-      case "legendary":
-        return "bg-orange-500"
-      case "mythic":
-        return "bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"
-      default:
-        return "bg-zinc-500"
+      case "Common": return "bg-zinc-600"
+      case "Rare": return "bg-blue-600"
+      case "Epic": return "bg-purple-600"
+      case "Legendary": return "bg-amber-600"
+      case "Sovereign": return "bg-red-600"
+      default: return "bg-zinc-600"
     }
   }
 
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "Assault": return Sword
+      case "Stealth": return Eye
+      case "Support": return Shield
+      case "Hacking": return Code
+      default: return Target
+    }
+  }
+
+  const handleUpgradeWeapon = () => {
+    setUpgradeModalOpen(false)
+  }
+
   return (
-    <div className="w-full bg-black text-white min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 text-transparent bg-clip-text">
-            LIONSMANE Arsenal
-          </h1>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
-            Advanced weapons system utilizing LIONSMANE technology to combat the Limptin Foundation's SCAM nanobots
-            across both timelines.
-          </p>
+    <div className="container mx-auto px-4 py-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">LIONSMANE Arsenal</h1>
+          <p className="text-zinc-400">Advanced weaponry for the digital resistance</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div className="md:col-span-1">
-            <div className="sticky top-6">
-              <h2 className="text-xl font-bold mb-4">Weapon Categories</h2>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <Shield className="w-5 h-5 mr-2 text-blue-500" /> Melee Weapons
-                  </h3>
-                  <div className="space-y-2">
-                    {meleeWeapons.map((weapon) => (
-                      <Card
-                        key={weapon.id}
-                        className={`bg-zinc-900 border-zinc-800 cursor-pointer transition-all hover:bg-zinc-800 ${selectedWeapon.id === weapon.id ? "border-blue-500" : ""}`}
-                        onClick={() => setSelectedWeapon(weapon)}
-                      >
-                        <CardContent className="p-3 flex items-center gap-3">
-                          <div className="w-12 h-12 relative rounded overflow-hidden flex-shrink-0">
-                            <Image
-                              src={weapon.image || "/placeholder.svg"}
-                              alt={weapon.name}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-sm">{weapon.name}</h4>
-                            <Badge className={`${getRarityColor(weapon.rarity)} text-xs`}>
-                              {weapon.rarity.charAt(0).toUpperCase() + weapon.rarity.slice(1)}
-                            </Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <Crosshair className="w-5 h-5 mr-2 text-red-500" /> Ranged Weapons
-                  </h3>
-                  <div className="space-y-2">
-                    {rangedWeapons.map((weapon) => (
-                      <Card
-                        key={weapon.id}
-                        className={`bg-zinc-900 border-zinc-800 cursor-pointer transition-all hover:bg-zinc-800 ${selectedWeapon.id === weapon.id ? "border-blue-500" : ""}`}
-                        onClick={() => setSelectedWeapon(weapon)}
-                      >
-                        <CardContent className="p-3 flex items-center gap-3">
-                          <div className="w-12 h-12 relative rounded overflow-hidden flex-shrink-0">
-                            <Image
-                              src={weapon.image || "/placeholder.svg"}
-                              alt={weapon.name}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-sm">{weapon.name}</h4>
-                            <Badge className={`${getRarityColor(weapon.rarity)} text-xs`}>
-                              {weapon.rarity.charAt(0).toUpperCase() + weapon.rarity.slice(1)}
-                            </Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <Sparkles className="w-5 h-5 mr-2 text-purple-500" /> Special Weapons
-                  </h3>
-                  <div className="space-y-2">
-                    {specialWeapons.map((weapon) => (
-                      <Card
-                        key={weapon.id}
-                        className={`bg-zinc-900 border-zinc-800 cursor-pointer transition-all hover:bg-zinc-800 ${selectedWeapon.id === weapon.id ? "border-blue-500" : ""}`}
-                        onClick={() => setSelectedWeapon(weapon)}
-                      >
-                        <CardContent className="p-3 flex items-center gap-3">
-                          <div className="w-12 h-12 relative rounded overflow-hidden flex-shrink-0">
-                            <Image
-                              src={weapon.image || "/placeholder.svg"}
-                              alt={weapon.name}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-sm">{weapon.name}</h4>
-                            <Badge className={`${getRarityColor(weapon.rarity)} text-xs`}>
-                              {weapon.rarity.charAt(0).toUpperCase() + weapon.rarity.slice(1)}
-                            </Badge>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-              <div className="relative h-80">
-                <Image
-                  src={selectedWeapon.image || "/placeholder.svg"}
-                  alt={selectedWeapon.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6">
-                  <Badge className={`${getRarityColor(selectedWeapon.rarity)} mb-2`}>
-                    {selectedWeapon.rarity.charAt(0).toUpperCase() + selectedWeapon.rarity.slice(1)}
-                  </Badge>
-                  <h2 className="text-3xl font-bold">{selectedWeapon.name}</h2>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="outline" className="border-zinc-700">
-                      {selectedWeapon.category.charAt(0).toUpperCase() + selectedWeapon.category.slice(1)}
-                    </Badge>
-                    <Badge variant="outline" className="border-zinc-700">
-                      {selectedWeapon.timeline === "both" ? "Dual Timeline" : selectedWeapon.timeline}
-                    </Badge>
-                    {selectedWeapon.nftBonded && <Badge className="bg-blue-900">LIONSMANE Bonded</Badge>}
-                  </div>
-                </div>
-              </div>
-
-              <CardContent className="p-6">
-                <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <TabsList className="grid w-full grid-cols-4 bg-zinc-800">
-                    <TabsTrigger value="specs">Specifications</TabsTrigger>
-                    <TabsTrigger value="abilities">Abilities</TabsTrigger>
-                    <TabsTrigger value="upgrades">Upgrades</TabsTrigger>
-                    <TabsTrigger value="lore">Lore</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="specs" className="pt-6">
-                    <p className="text-zinc-300 mb-6">{selectedWeapon.description}</p>
-
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                      {selectedWeapon.stats.map((stat) => (
-                        <div key={stat.name} className="bg-zinc-800 p-4 rounded-lg flex flex-col items-center">
-                          <div className="mb-2">{stat.icon}</div>
-                          <StatIndicator value={stat.value} />
-                          <div className="mt-2 text-sm font-medium">{stat.name}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="bg-zinc-800 p-4 rounded-lg">
-                      <h3 className="font-semibold mb-2 flex items-center">
-                        <Fingerprint className="w-5 h-5 mr-2 text-blue-400" /> Compatibility
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <h4 className="text-sm text-zinc-400 mb-1">Timeline Effectiveness</h4>
-                          <div className="flex items-center gap-2">
-                            <Badge
-                              className={
-                                selectedWeapon.timeline === "2000s" || selectedWeapon.timeline === "both"
-                                  ? "bg-blue-600"
-                                  : "bg-zinc-700"
-                              }
-                            >
-                              2000s
-                            </Badge>
-                            <Badge
-                              className={
-                                selectedWeapon.timeline === "3030s" || selectedWeapon.timeline === "both"
-                                  ? "bg-purple-600"
-                                  : "bg-zinc-700"
-                              }
-                            >
-                              3030s
-                            </Badge>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="text-sm text-zinc-400 mb-1">LIONSMANE Integration</h4>
-                          <div className="flex items-center gap-2">
-                            <Badge className={selectedWeapon.nftBonded ? "bg-green-600" : "bg-zinc-700"}>
-                              {selectedWeapon.nftBonded ? "Integrated" : "Not Integrated"}
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="abilities" className="pt-6">
-                    <div className="space-y-6">
-                      {selectedWeapon.abilities.map((ability) => (
-                        <div key={ability.name} className="bg-zinc-800 p-4 rounded-lg">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center">
-                              {ability.icon}
-                            </div>
-                            <div>
-                              <h3 className="font-semibold">{ability.name}</h3>
-                              <div className="flex items-center gap-2 text-xs text-zinc-400">
-                                <span>Energy: {ability.energyCost}</span>
-                                <span>•</span>
-                                <span>
-                                  Cooldown: {Math.floor(ability.cooldown / 60)}:
-                                  {(ability.cooldown % 60).toString().padStart(2, "0")}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="text-zinc-300 text-sm">{ability.description}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="upgrades" className="pt-6">
-                    <div className="space-y-4">
-                      {selectedWeapon.upgrades.map((upgrade) => (
-                        <div
-                          key={upgrade.level}
-                          className={`border rounded-lg p-4 ${upgrade.unlocked ? "border-blue-500 bg-blue-900/20" : "border-zinc-700 bg-zinc-800"}`}
-                        >
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-semibold flex items-center">
-                              <Badge className="mr-2 bg-zinc-700">Level {upgrade.level}</Badge>
-                              {upgrade.name}
-                            </h3>
-                            <Badge className={upgrade.unlocked ? "bg-green-600" : "bg-zinc-700"}>
-                              {upgrade.unlocked ? "Unlocked" : "Locked"}
-                            </Badge>
-                          </div>
-                          <p className="text-zinc-300 text-sm mb-3">{upgrade.description}</p>
-                          <div className="flex justify-between items-center">
-                            <div className="text-sm text-zinc-400">
-                              Cost: <span className="text-amber-400">{upgrade.cost.toLocaleString()} G4C</span>
-                            </div>
-                            {!upgrade.unlocked && (
-                              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                                Unlock
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="lore" className="pt-6">
-                    <div className="bg-zinc-800 p-6 rounded-lg border border-zinc-700">
-                      <h3 className="text-xl font-semibold mb-4">Weapon History</h3>
-                      <p className="text-zinc-300 mb-6 leading-relaxed">{selectedWeapon.lore}</p>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-zinc-900 p-4 rounded-lg">
-                          <h4 className="font-semibold mb-2 flex items-center">
-                            <Shield className="w-4 h-4 mr-2 text-blue-400" /> Anti-SCAM Effectiveness
-                          </h4>
-                          <div className="w-full bg-zinc-700 rounded-full h-2.5 mb-1">
-                            <div
-                              className="bg-blue-500 h-2.5 rounded-full"
-                              style={{ width: `${selectedWeapon.stats.find((s) => s.name === "Damage")?.value || 0}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-xs text-zinc-400">
-                            Effectiveness against Limptin Foundation SCAM technology
-                          </p>
-                        </div>
-
-                        <div className="bg-zinc-900 p-4 rounded-lg">
-                          <h4 className="font-semibold mb-2 flex items-center">
-                            <Cpu className="w-4 h-4 mr-2 text-purple-400" /> LIONSMANE Resonance
-                          </h4>
-                          <div className="w-full bg-zinc-700 rounded-full h-2.5 mb-1">
-                            <div
-                              className="bg-purple-500 h-2.5 rounded-full"
-                              style={{ width: `${selectedWeapon.nftBonded ? 100 : 30}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-xs text-zinc-400">Compatibility with LIONSMANE consciousness technology</p>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </div>
+        <div className="flex gap-3">
+          <Button className="bg-red-600 hover:bg-red-700">
+            <Plus className="mr-2 h-4 w-4" /> Acquire Weapon
+          </Button>
+          <Button variant="outline">
+            <Upgrade className="mr-2 h-4 w-4" /> Upgrade Lab
+          </Button>
         </div>
       </div>
+
+      <Tabs defaultValue="arsenal" className="w-full">
+        <TabsList className="grid grid-cols-2 mb-8">
+          <TabsTrigger value="arsenal" className="data-[state=active]:bg-red-600">
+            <Target className="mr-2 h-4 w-4" /> Arsenal
+          </TabsTrigger>
+          <TabsTrigger value="categories" className="data-[state=active]:bg-red-600">
+            <Zap className="mr-2 h-4 w-4" /> Categories
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="arsenal">
+          <div className="flex flex-wrap gap-2 mb-6">
+            {categories.map((category) => {
+              const Icon = category === "All" ? Target : getCategoryIcon(category)
+              return (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(category)}
+                  className={selectedCategory === category ? "bg-red-600 hover:bg-red-700" : ""}
+                >
+                  <Icon className="mr-2 h-4 w-4" />
+                  {category}
+                </Button>
+              )
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredWeapons.map((weapon) => {
+              const CategoryIcon = getCategoryIcon(weapon.category)
+              const isOwned = userWeapons.includes(weapon.id)
+              
+              return (
+                <Card 
+                  key={weapon.id} 
+                  className={`bg-zinc-900 border-zinc-800 cursor-pointer transition-all hover:border-red-500 ${
+                    selectedWeapon === weapon.id ? 'border-red-500' : ''
+                  } ${!isOwned ? 'opacity-75' : ''}`}
+                  onClick={() => setSelectedWeapon(weapon.id)}
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-2">
+                        <CategoryIcon className="h-4 w-4 text-red-500" />
+                        <Badge className={getRarityColor(weapon.rarity)}>
+                          {weapon.rarity}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {weapon.level >= 5 && <Crown className="h-4 w-4 text-amber-500" />}
+                        {weapon.unlockRequirement && <Lock className="h-4 w-4 text-zinc-500" />}
+                      </div>
+                    </div>
+                    <CardTitle className="text-lg">{weapon.name}</CardTitle>
+                    <p className="text-sm text-zinc-400">Level {weapon.level} • {weapon.category}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="relative h-32 mb-4 rounded-lg overflow-hidden">
+                      <Image
+                        src={weapon.image || "/placeholder.svg"}
+                        alt={weapon.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      />
+                      {!isOwned && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                          <Lock className="h-8 w-8 text-zinc-400" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-zinc-400">Damage</span>
+                        <div className="flex items-center gap-2">
+                          <Progress value={weapon.damage} className="h-2 w-16" />
+                          <span className="text-sm">{weapon.damage}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-zinc-400">Accuracy</span>
+                        <div className="flex items-center gap-2">
+                          <Progress value={weapon.accuracy} className="h-2 w-16" />
+                          <span className="text-sm">{weapon.accuracy}%</span>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-zinc-400">Range</span>
+                        <div className="flex items-center gap-2">
+                          <Progress value={weapon.range} className="h-2 w-16" />
+                          <span className="text-sm">{weapon.range}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {weapon.abilities.slice(0, 2).map((ability, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs">
+                          {ability}
+                        </Badge>
+                      ))}
+                      {weapon.abilities.length > 2 && (
+                        <Badge variant="secondary" className="text-xs">
+                          +{weapon.abilities.length - 2} more
+                        </Badge>
+                      )}
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="text-sm">
+                        <span className="text-zinc-400">Upgrade: </span>
+                        <span className="font-medium">
+                          {weapon.upgradeCost?.toLocaleString() || 'N/A'} {weapon.currency}
+                        </span>
+                      </div>
+                      {isOwned ? (
+                        <Badge className="bg-emerald-900">Owned</Badge>
+                      ) : (
+                        <Badge variant="outline">Locked</Badge>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+
+          {selectedWeapon && weapon && (
+            <Card className="mt-8 bg-zinc-900 border-zinc-800">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                  <Target className="h-6 w-6 text-red-500" />
+                  {weapon.name} - Detailed Analysis
+                </CardTitle>
+                <p className="text-zinc-400 mt-2">{weapon.description}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <h3 className="font-bold mb-3 flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-purple-500" /> Abilities
+                    </h3>
+                    <div className="space-y-2">
+                      {weapon.abilities.map((ability, index) => (
+                        <div key={index} className="flex items-center gap-2 text-zinc-300">
+                          <Star className="h-4 w-4 text-amber-500" />
+                          {ability}
+                        </div>
+                      ))}
+                    </div>
+
+                    {weapon.unlockRequirement && (
+                      <>
+                        <h3 className="font-bold mb-3 mt-6 flex items-center gap-2">
+                          <Lock className="h-4 w-4 text-red-500" /> Unlock Requirement
+                        </h3>
+                        <p className="text-zinc-300">{weapon.unlockRequirement}</p>
+                      </>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold mb-3 flex items-center gap-2">
+                      <Target className="h-4 w-4 text-blue-500" /> Combat Stats
+                    </h3>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm text-zinc-400">Damage Output</span>
+                          <span className="text-sm font-medium">{weapon.damage}/100</span>
+                        </div>
+                        <Progress value={weapon.damage} className="h-2" />
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm text-zinc-400">Accuracy Rating</span>
+                          <span className="text-sm font-medium">{weapon.accuracy}%</span>
+                        </div>
+                        <Progress value={weapon.accuracy} className="h-2" />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm text-zinc-400">Effective Range</span>
+                          <span className="text-sm font-medium">{weapon.range}/100</span>
+                        </div>
+                        <Progress value={weapon.range} className="h-2" />
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-zinc-800 rounded-lg">
+                      <h4 className="font-medium mb-2">Upgrade Cost</h4>
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold">
+                          {weapon.upgradeCost?.toLocaleString() || 'N/A'}
+                        </span>
+                        <Badge className={weapon.currency === "LIONSMANE" ? "bg-amber-900" : "bg-blue-900"}>
+                          {weapon.currency}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-6">
+                      <Button 
+                        onClick={() => setUpgradeModalOpen(true)}
+                        className="bg-red-600 hover:bg-red-700"
+                        disabled={!userWeapons.includes(weapon.id)}
+                      >
+                        <Upgrade className="mr-2 h-4 w-4" /> 
+                        Upgrade Weapon
+                      </Button>
+                      <Button variant="outline">
+                        <Target className="mr-2 h-4 w-4" /> 
+                        Test Fire
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="categories">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.slice(1).map((category) => {
+              const Icon = getCategoryIcon(category)
+              const categoryWeapons = weaponsData.filter(w => w.category === category)
+              const ownedCount = categoryWeapons.filter(w => userWeapons.includes(w.id)).length
+              
+              return (
+                <Card key={category} className="bg-zinc-900 border-zinc-800">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Icon className="h-8 w-8 text-red-500" />
+                      <div>
+                        <h3 className="font-bold text-lg">{category}</h3>
+                        <p className="text-sm text-zinc-400">
+                          {ownedCount}/{categoryWeapons.length} owned
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <Progress 
+                      value={(ownedCount / categoryWeapons.length) * 100} 
+                      className="h-2 mb-4" 
+                    />
+
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-400">Total Weapons</span>
+                        <span>{categoryWeapons.length}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-400">Highest Level</span>
+                        <span>{Math.max(...categoryWeapons.map(w => w.level))}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-400">Legendary+</span>
+                        <span>{categoryWeapons.filter(w => w.rarity === "Legendary" || w.rarity === "Sovereign").length}</span>
+                      </div>
+                    </div>
+
+                    <Button 
+                      className="w-full bg-red-600 hover:bg-red-700"
+                      onClick={() => setSelectedCategory(category)}
+                    >
+                      <Icon className="mr-2 h-4 w-4" />
+                      View {category}
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      {/* Upgrade Modal */}
+      <Dialog open={upgradeModalOpen} onOpenChange={setUpgradeModalOpen}>
+        <DialogContent className="bg-zinc-900 border-zinc-800">
+          <DialogHeader>
+            <DialogTitle>Upgrade Weapon</DialogTitle>
+            <DialogDescription>
+              Enhance your weapon's capabilities with advanced modifications.
+            </DialogDescription>
+          </DialogHeader>
+
+          {weapon && (
+            <div className="space-y-4 py-4">
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Current Level</div>
+                <div>{weapon.level}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Next Level</div>
+                <div>{weapon.level + 1}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="font-medium">Upgrade Cost</div>
+                <div>{weapon.upgradeCost?.toLocaleString() || 'N/A'} {weapon.currency}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="font-medium">New Abilities</div>
+                <div className="text-sm text-zinc-400">+2 Enhanced Abilities</div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex justify-end gap-3">
+            <Button variant="outline" onClick={() => setUpgradeModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button 
+              className="bg-red-600 hover:bg-red-700"
+              onClick={handleUpgradeWeapon}
+            >
+              Confirm Upgrade
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
