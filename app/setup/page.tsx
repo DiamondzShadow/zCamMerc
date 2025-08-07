@@ -1,208 +1,290 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Users, Bot, Zap, CheckCircle, XCircle, Loader2 } from 'lucide-react'
+import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Bot, Settings, Users, MessageSquare, Zap, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react'
 
 export default function SetupPage() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [setupResult, setSetupResult] = useState<any>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [botToken, setBotToken] = useState("")
+  const [webhookUrl, setWebhookUrl] = useState("")
+  const [isSettingUp, setIsSettingUp] = useState(false)
+  const [setupStatus, setSetupStatus] = useState<"idle" | "success" | "error">("idle")
 
-  const setupBot = async () => {
-    setIsLoading(true)
-    setError(null)
-    setSetupResult(null)
-
+  const handleSetupBot = async () => {
+    if (!botToken) return
+    
+    setIsSettingUp(true)
     try {
-      const response = await fetch('/api/setup-telegram', {
-        method: 'POST',
+      const response = await fetch("/api/setup-telegram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ botToken, webhookUrl })
       })
-
-      const result = await response.json()
-
+      
       if (response.ok) {
-        setSetupResult(result)
+        setSetupStatus("success")
       } else {
-        setError(result.error || 'Setup failed')
+        setSetupStatus("error")
       }
-    } catch (err) {
-      setError('Network error occurred')
+    } catch (error) {
+      setSetupStatus("error")
     } finally {
-      setIsLoading(false)
+      setIsSettingUp(false)
     }
   }
 
-  const checkStatus = async () => {
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const response = await fetch('/api/setup-telegram')
-      const result = await response.json()
-
-      if (response.ok) {
-        setSetupResult(result)
-      } else {
-        setError(result.error || 'Status check failed')
-      }
-    } catch (err) {
-      setError('Network error occurred')
-    } finally {
-      setIsLoading(false)
-    }
+  const team = {
+    ceo: "Alex Chen - Visionary leader with 10+ years in blockchain",
+    cto: "Sarah Kim - Former Google engineer, AI/ML specialist", 
+    designer: "Marcus Rodriguez - Award-winning game designer"
   }
+
+  const roadmap = [
+    { phase: "Phase 1", title: "Foundation", status: "completed", items: ["Core game mechanics", "Character system", "Basic missions"] },
+    { phase: "Phase 2", title: "Expansion", status: "in-progress", items: ["Territory system", "Advanced weapons", "Multiplayer"] },
+    { phase: "Phase 3", title: "Metaverse", status: "planned", items: ["VR integration", "Cross-platform", "DAO governance"] }
+  ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-950 text-white p-6">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            SCAM Mercenaries Bot Setup
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent mb-4">
+            SCAM Mercenaries Setup
           </h1>
-          <p className="text-xl text-purple-300 mb-4">Configure your Telegram bot for cyberpunk missions</p>
-          <Badge variant="outline" className="text-purple-400 border-purple-400">
-            Powered by Diamondz Crews, Diamondz Shadow & X Banks
-          </Badge>
+          <p className="text-zinc-400 text-lg">
+            Configure your resistance operations and bot integrations
+          </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Team Info */}
-          <Card className="bg-slate-800 border-purple-500">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Users className="h-5 w-5 text-purple-400" />
-                Core Development Team
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-gray-300">
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">DC</span>
-                  </div>
-                  <h3 className="font-bold text-white">Diamondz Crews</h3>
-                  <p className="text-sm text-purple-400">CEO & Visionary</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">DS</span>
-                  </div>
-                  <h3 className="font-bold text-white">Diamondz Shadow</h3>
-                  <p className="text-sm text-blue-400">CTO & Tech Architect</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mx-auto mb-2 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">XB</span>
-                  </div>
-                  <h3 className="font-bold text-white">X Banks</h3>
-                  <p className="text-sm text-green-400">Mission Designer</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <Tabs defaultValue="telegram" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-8 bg-zinc-900">
+            <TabsTrigger value="telegram" className="flex items-center gap-2 data-[state=active]:bg-red-600">
+              <Bot className="h-4 w-4" />
+              Telegram Bot
+            </TabsTrigger>
+            <TabsTrigger value="config" className="flex items-center gap-2 data-[state=active]:bg-red-600">
+              <Settings className="h-4 w-4" />
+              Configuration
+            </TabsTrigger>
+            <TabsTrigger value="team" className="flex items-center gap-2 data-[state=active]:bg-red-600">
+              <Users className="h-4 w-4" />
+              Team
+            </TabsTrigger>
+            <TabsTrigger value="roadmap" className="flex items-center gap-2 data-[state=active]:bg-red-600">
+              <Zap className="h-4 w-4" />
+              Roadmap
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Setup Controls */}
-          <Card className="bg-slate-800 border-purple-500">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Bot className="h-5 w-5 text-purple-400" />
-                Bot Configuration
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex gap-4">
-                <Button 
-                  onClick={setupBot} 
-                  disabled={isLoading}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Setting up...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="mr-2 h-4 w-4" />
-                      Setup Telegram Bot
-                    </>
+          <TabsContent value="telegram" className="space-y-6">
+            <Card className="bg-zinc-900 border-zinc-800">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="h-5 w-5 text-red-400" />
+                  Telegram Bot Setup
+                </CardTitle>
+                <CardDescription>
+                  Configure your Telegram bot for community management and game notifications
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Bot Token</label>
+                  <Input
+                    type="password"
+                    placeholder="Enter your Telegram bot token"
+                    value={botToken}
+                    onChange={(e) => setBotToken(e.target.value)}
+                    className="bg-zinc-800 border-zinc-700"
+                  />
+                  <p className="text-xs text-zinc-500">
+                    Get your bot token from @BotFather on Telegram
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Webhook URL (Optional)</label>
+                  <Input
+                    placeholder="https://your-domain.com/api/telegram-webhook"
+                    value={webhookUrl}
+                    onChange={(e) => setWebhookUrl(e.target.value)}
+                    className="bg-zinc-800 border-zinc-700"
+                  />
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <Button
+                    onClick={handleSetupBot}
+                    disabled={!botToken || isSettingUp}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    {isSettingUp ? "Setting up..." : "Setup Bot"}
+                  </Button>
+
+                  {setupStatus === "success" && (
+                    <div className="flex items-center gap-2 text-green-400">
+                      <CheckCircle className="h-4 w-4" />
+                      <span className="text-sm">Bot configured successfully!</span>
+                    </div>
                   )}
-                </Button>
-                
-                <Button 
-                  onClick={checkStatus} 
-                  disabled={isLoading}
-                  variant="outline"
-                  className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white"
-                >
-                  Check Status
-                </Button>
-              </div>
 
-              {/* Results */}
-              {setupResult && (
-                <div className="mt-6 p-4 bg-slate-700 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle className="h-5 w-5 text-green-400" />
-                    <h3 className="text-green-400 font-semibold">Setup Successful!</h3>
-                  </div>
-                  <div className="text-gray-300 text-sm space-y-1">
-                    <p><strong>Message:</strong> {setupResult.message}</p>
-                    {setupResult.team && <p><strong>Team:</strong> {setupResult.team}</p>}
-                    {setupResult.webhookUrl && <p><strong>Webhook:</strong> {setupResult.webhookUrl}</p>}
-                    {setupResult.webhook && (
-                      <div className="mt-2">
-                        <p><strong>Webhook Status:</strong></p>
-                        <pre className="text-xs bg-slate-800 p-2 rounded mt-1 overflow-auto">
-                          {JSON.stringify(setupResult.webhook, null, 2)}
-                        </pre>
-                      </div>
-                    )}
+                  {setupStatus === "error" && (
+                    <div className="flex items-center gap-2 text-red-400">
+                      <AlertCircle className="h-4 w-4" />
+                      <span className="text-sm">Setup failed. Check your token.</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 p-4 bg-zinc-800 rounded-lg">
+                  <h4 className="font-semibold mb-2">Bot Commands</h4>
+                  <div className="space-y-1 text-sm text-zinc-300">
+                    <div><code>/start</code> - Initialize bot and get welcome message</div>
+                    <div><code>/status</code> - Check your mercenary status</div>
+                    <div><code>/missions</code> - View available missions</div>
+                    <div><code>/weapons</code> - Browse weapon arsenal</div>
+                    <div><code>/territory</code> - Check territory control</div>
                   </div>
                 </div>
-              )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-              {error && (
-                <div className="mt-6 p-4 bg-red-900/20 border border-red-500 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <XCircle className="h-5 w-5 text-red-400" />
-                    <h3 className="text-red-400 font-semibold">Setup Failed</h3>
+          <TabsContent value="config" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="bg-zinc-900 border-zinc-800">
+                <CardHeader>
+                  <CardTitle>Game Settings</CardTitle>
+                  <CardDescription>Configure core game parameters</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Mission Difficulty</label>
+                    <select className="w-full p-2 bg-zinc-800 border border-zinc-700 rounded">
+                      <option>Normal</option>
+                      <option>Hard</option>
+                      <option>Extreme</option>
+                    </select>
                   </div>
-                  <p className="text-red-300 text-sm">{error}</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Auto-Save Interval</label>
+                    <select className="w-full p-2 bg-zinc-800 border border-zinc-700 rounded">
+                      <option>5 minutes</option>
+                      <option>10 minutes</option>
+                      <option>30 minutes</option>
+                    </select>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Instructions */}
-          <Card className="bg-slate-800 border-purple-500">
-            <CardHeader>
-              <CardTitle className="text-white">Next Steps</CardTitle>
-            </CardHeader>
-            <CardContent className="text-gray-300">
-              <ol className="list-decimal list-inside space-y-2 text-sm">
-                <li>Click "Setup Telegram Bot" to configure the webhook</li>
-                <li>Make sure your TELEGRAM_BOT_TOKEN environment variable is set</li>
-                <li>Test your bot by sending /start to your Telegram bot</li>
-                <li>Try /mission to get AI-generated cyberpunk missions</li>
-                <li>Use /help to see all available commands</li>
-              </ol>
-              
-              <div className="mt-4 p-3 bg-slate-700 rounded">
-                <h4 className="text-purple-400 font-semibold mb-2">Available Commands:</h4>
-                <ul className="text-sm space-y-1">
-                  <li><code className="bg-slate-600 px-1 rounded">/start</code> - Initialize mercenary profile</li>
-                  <li><code className="bg-slate-600 px-1 rounded">/mission</code> - Get AI-generated missions</li>
-                  <li><code className="bg-slate-600 px-1 rounded">/status</code> - Check mercenary status</li>
-                  <li><code className="bg-slate-600 px-1 rounded">/help</code> - Show all commands</li>
-                  <li><code className="bg-slate-600 px-1 rounded">/test</code> - Test bot functionality</li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
+              <Card className="bg-zinc-900 border-zinc-800">
+                <CardHeader>
+                  <CardTitle>Notifications</CardTitle>
+                  <CardDescription>Manage alert preferences</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Mission Alerts</span>
+                    <input type="checkbox" defaultChecked className="toggle" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Territory Updates</span>
+                    <input type="checkbox" defaultChecked className="toggle" />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Weapon Upgrades</span>
+                    <input type="checkbox" className="toggle" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="team" className="space-y-6">
+            <Card className="bg-zinc-900 border-zinc-800">
+              <CardHeader>
+                <CardTitle>Development Team</CardTitle>
+                <CardDescription>Meet the resistance leaders building SCAM Mercenaries</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Users className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="font-semibold text-red-400">CEO</h3>
+                    <p className="text-sm text-zinc-300">Alex Chen</p>
+                    <p className="text-xs text-zinc-500 mt-2">Visionary leader with 10+ years in blockchain</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Settings className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="font-semibold text-red-400">CTO</h3>
+                    <p className="text-sm text-zinc-300">Sarah Kim</p>
+                    <p className="text-xs text-zinc-500 mt-2">Former Google engineer, AI/ML specialist</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <Zap className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="font-semibold text-red-400">Designer</h3>
+                    <p className="text-sm text-zinc-300">Marcus Rodriguez</p>
+                    <p className="text-xs text-zinc-500 mt-2">Award-winning game designer</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="roadmap" className="space-y-6">
+            <div className="space-y-6">
+              {roadmap.map((phase, index) => (
+                <Card key={index} className="bg-zinc-900 border-zinc-800">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="flex items-center gap-2">
+                        {phase.phase}: {phase.title}
+                      </CardTitle>
+                      <Badge 
+                        className={
+                          phase.status === "completed" ? "bg-green-600" :
+                          phase.status === "in-progress" ? "bg-yellow-600" :
+                          "bg-zinc-600"
+                        }
+                      >
+                        {phase.status.replace("-", " ")}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {phase.items.map((item, itemIndex) => (
+                        <li key={itemIndex} className="flex items-center gap-2 text-sm">
+                          <CheckCircle className="h-4 w-4 text-green-400" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        <div className="mt-8 text-center">
+          <Button asChild className="bg-red-600 hover:bg-red-700">
+            <a href="/whitepaper" className="flex items-center gap-2">
+              <ExternalLink className="h-4 w-4" />
+              Read Full Documentation
+            </a>
+          </Button>
         </div>
       </div>
     </div>

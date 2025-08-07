@@ -1,30 +1,12 @@
 {
   "name": "scam-mercenaries",
-  "version": "2.1.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "SCAM Mercenaries - Cyberpunk NFT Gaming Experience by Diamondz Crews, Diamondz Shadow, and X Banks",
-  "keywords": [
-    "cyberpunk",
-    "nft",
-    "gaming",
-    "web3",
-    "blockchain",
-    "telegram-bot",
-    "scam-mercenaries",
-    "diamondz-crews",
-    "diamondz-shadow",
-    "x-banks"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/scam-mercenaries/game"
-  },
-  "license": "MIT",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "setup-bot": "tsx scripts/setup-telegram-bot.ts",
+    "setup-telegram": "node scripts/setup-telegram-bot.js",
     "start": "next start"
   },
   "dependencies": {
@@ -57,25 +39,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "14.0.4",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.2.4",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
-    "tsx": "^4.19.2",
     "typescript": "^5"
-  },
-  "authors": [
-    {
-      "name": "Diamondz Crews",
-      "role": "CEO & Visionary"
-    },
-    {
-      "name": "Diamondz Shadow",
-      "role": "CTO & Technical Architect"
-    },
-    {
-      "name": "X Banks",
-      "role": "Mission Designer"
-    }
-  ]
+  }
 }

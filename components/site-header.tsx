@@ -1,93 +1,124 @@
-'use client'
+"use client"
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Menu } from 'lucide-react'
-
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Characters', href: '/characters' },
-  { name: 'Missions', href: '/missions' },
-  { name: 'Simulator', href: '/simulator' },
-  { name: 'Storyline', href: '/storyline' },
-  { name: 'Territory', href: '/territory-management' },
-  { name: 'Weapons', href: '/weapons' },
-  { name: 'NFT Transform', href: '/nft-transformation' },
-  { name: 'LIONSMANE', href: '/lionsmane' },
-  { name: 'Future', href: '/future' },
-  { name: 'GDD', href: '/gdd' },
-  { name: 'Whitepaper', href: '/whitepaper' },
-]
+import { useState } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Menu, ChevronDown } from 'lucide-react'
 
 export default function SiteHeader() {
-  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+
+  const navigationItems = [
+    { name: "Home", href: "/" },
+    {
+      name: "Campaign",
+      href: "/missions",
+      dropdown: [
+        { name: "Characters", href: "/characters" },
+        { name: "Missions", href: "/missions" },
+        { name: "Storyline", href: "/storyline" },
+        { name: "Simulator", href: "/simulator" },
+      ]
+    },
+    { name: "Hunters", href: "/hunters" },
+    { name: "Weapons", href: "/weapons" },
+    { name: "Territories", href: "/territory-management" },
+    {
+      name: "Lionsmane",
+      href: "/lionsmane",
+      dropdown: [
+        { name: "Lionsmane NFTs", href: "/lionsmane" },
+        { name: "NFT Transform", href: "/nft-transformation" },
+      ]
+    },
+    { name: "Year 3030", href: "/future" },
+    { name: "Whitepaper", href: "/whitepaper" },
+    { name: "GDD", href: "/gdd" },
+  ]
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">
-              SCAM Mercenaires
-            </span>
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            {navigation.map((item) => (
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link href="/" className="flex items-center space-x-2">
+          <div className="h-8 w-8 rounded bg-red-600 flex items-center justify-center">
+            <span className="text-white font-bold text-sm">SM</span>
+          </div>
+          <span className="font-bold text-xl">SCAM Mercenaires</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center space-x-1">
+          {navigationItems.map((item) => (
+            <div
+              key={item.name}
+              className="relative"
+              onMouseEnter={() => item.dropdown && setActiveDropdown(item.name)}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
               <Link
-                key={item.href}
                 href={item.href}
-                className={cn(
-                  'transition-colors hover:text-foreground/80',
-                  pathname === item.href ? 'text-foreground' : 'text-foreground/60'
-                )}
+                className="flex items-center px-3 py-2 text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
               >
                 {item.name}
+                {item.dropdown && <ChevronDown className="ml-1 h-3 w-3" />}
               </Link>
-            ))}
-          </nav>
-        </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-            >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle Menu</span>
+              
+              {item.dropdown && activeDropdown === item.name && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-zinc-900 border border-zinc-800 rounded-md shadow-lg py-1 z-50">
+                  {item.dropdown.map((dropdownItem) => (
+                    <Link
+                      key={dropdownItem.name}
+                      href={dropdownItem.href}
+                      className="block px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
+                    >
+                      {dropdownItem.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
+
+        {/* Mobile Navigation */}
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild className="lg:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="pr-0">
-            <Link href="/" className="flex items-center">
-              <span className="font-bold">SCAM Mercenaires</span>
-            </Link>
-            <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-              <div className="flex flex-col space-y-3">
-                {navigation.map((item) => (
+          <SheetContent side="right" className="w-80 bg-zinc-900 border-zinc-800">
+            <div className="flex flex-col space-y-4 mt-8">
+              {navigationItems.map((item) => (
+                <div key={item.name}>
                   <Link
-                    key={item.href}
                     href={item.href}
-                    className={cn(
-                      'transition-colors hover:text-foreground/80',
-                      pathname === item.href ? 'text-foreground' : 'text-foreground/60'
-                    )}
+                    className="block px-4 py-3 text-lg font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                    onClick={() => setIsOpen(false)}
                   >
                     {item.name}
                   </Link>
-                ))}
-              </div>
+                  {item.dropdown && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      {item.dropdown.map((dropdownItem) => (
+                        <Link
+                          key={dropdownItem.name}
+                          href={dropdownItem.href}
+                          className="block px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </SheetContent>
         </Sheet>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            <Link href="/" className="flex items-center space-x-2 md:hidden">
-              <span className="font-bold">SCAM Mercenaires</span>
-            </Link>
-          </div>
-        </div>
       </div>
     </header>
   )

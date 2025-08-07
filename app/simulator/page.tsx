@@ -12,7 +12,6 @@ export default function SimulatorPage() {
     <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Page Header */}
           <div className="text-center mb-8 md:mb-12">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
               Mission Simulator
@@ -23,7 +22,6 @@ export default function SimulatorPage() {
             </p>
           </div>
 
-          {/* Mission Simulator Component */}
           <Suspense
             fallback={
               <div className="flex flex-col items-center justify-center p-12 space-y-4">

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { territories } from "@/data/territories"
 import { useLocalStorage } from "@/hooks/use-local-storage"
-import { Shield, Users, Building, Zap, ArrowUp } from "lucide-react"
+import { Shield, Users, Building, Zap, ArrowUp, Code, Command } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 interface TerritoryDetailsProps {
@@ -43,19 +43,36 @@ export default function TerritoryDetails({ territoryId }: TerritoryDetailsProps)
 
   const isOwned = userTerritories.includes(territory.id)
 
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "Urban":
+        return <Building className="h-24 w-24 text-zinc-700" />
+      case "Digital":
+        return <Zap className="h-24 w-24 text-zinc-700" />
+      case "Tactical":
+        return <Shield className="h-24 w-24 text-red-700" />
+      case "Command":
+        return <Command className="h-24 w-24 text-amber-700" />
+      default:
+        return <Shield className="h-24 w-24 text-zinc-700" />
+    }
+  }
+
   return (
     <>
       <Card className="bg-zinc-900 border-zinc-800">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="md:w-1/3">
-              <div className="aspect-square rounded-lg bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center mb-4">
-                {territory.type === "Urban" ? (
-                  <Building className="h-24 w-24 text-zinc-700" />
-                ) : territory.type === "Digital" ? (
-                  <Zap className="h-24 w-24 text-zinc-700" />
+              <div className="aspect-square rounded-lg bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center mb-4 overflow-hidden">
+                {territory.image ? (
+                  <img 
+                    src={territory.image || "/placeholder.svg"} 
+                    alt={territory.name}
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
-                  <Shield className="h-24 w-24 text-zinc-700" />
+                  getTypeIcon(territory.type)
                 )}
               </div>
 
@@ -89,7 +106,18 @@ export default function TerritoryDetails({ territoryId }: TerritoryDetailsProps)
 
                 <div>
                   <div className="text-sm text-zinc-500 mb-1">Type</div>
-                  <Badge variant="outline">{territory.type}</Badge>
+                  <Badge 
+                    variant="outline"
+                    className={
+                      territory.type === "Tactical" 
+                        ? "border-red-500 text-red-400"
+                        : territory.type === "Command"
+                          ? "border-amber-500 text-amber-400"
+                          : ""
+                    }
+                  >
+                    {territory.type}
+                  </Badge>
                 </div>
 
                 <div>
@@ -161,6 +189,20 @@ export default function TerritoryDetails({ territoryId }: TerritoryDetailsProps)
                 </div>
               </div>
 
+              {territory.specialAbilities && (
+                <div className="mb-6">
+                  <h3 className="font-bold mb-3">Special Abilities</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {territory.specialAbilities.map((ability, index) => (
+                      <div key={index} className="bg-zinc-800 p-3 rounded-lg flex items-center gap-3">
+                        <Code className="h-6 w-6 text-red-500" />
+                        <div className="font-medium text-sm">{ability}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mb-6">
                 <h3 className="font-bold mb-3">Businesses</h3>
                 {territory.businesses && territory.businesses.length > 0 ? (
@@ -188,6 +230,11 @@ export default function TerritoryDetails({ territoryId }: TerritoryDetailsProps)
                   <Button variant="outline">
                     <Shield className="mr-2 h-4 w-4" /> Manage Defenses
                   </Button>
+                  {(territory.type === "Tactical" || territory.type === "Command") && (
+                    <Button variant="outline" className="border-red-500 text-red-400 hover:bg-red-900">
+                      <Code className="mr-2 h-4 w-4" /> Activate Abilities
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
