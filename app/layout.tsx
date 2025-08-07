@@ -1,16 +1,16 @@
-import type React from "react"
-import "@/app/globals.css"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import SiteHeader from "@/components/site-header"
-import SiteFooter from "@/components/site-footer"
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import SiteHeader from '@/components/site-header'
+import SiteFooter from '@/components/site-footer'
+import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: "Scam Mercenaires - The Digital Resistance",
-  description:
-    "Join the fight against the Limptin Foundation and their plan to control humanity through the metaverse.",
+export const metadata: Metadata = {
+  title: 'SCAM Mercenaries - Cyberpunk NFT Gaming',
+  description: 'Join the digital resistance in this revolutionary cyberpunk NFT gaming experience. Led by Diamondz Crews, Diamondz Shadow, and X Banks.',
+  keywords: ['cyberpunk', 'nft', 'gaming', 'web3', 'blockchain', 'scam-mercenaries'],
     generator: 'v0.dev'
 }
 
@@ -21,9 +21,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased bg-black text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <div className="flex flex-col min-h-screen">
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />
