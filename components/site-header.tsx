@@ -2,123 +2,153 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, ChevronDown } from 'lucide-react'
+import { Menu, ChevronDown } from "lucide-react"
 
 export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
 
   const navigationItems = [
-    { name: "Home", href: "/" },
     {
-      name: "Campaign",
-      href: "/missions",
-      dropdown: [
+      title: "Campaign",
+      items: [
         { name: "Characters", href: "/characters" },
         { name: "Missions", href: "/missions" },
         { name: "Storyline", href: "/storyline" },
         { name: "Simulator", href: "/simulator" },
-      ]
+      ],
     },
     { name: "Hunters", href: "/hunters" },
     { name: "Weapons", href: "/weapons" },
     { name: "Territories", href: "/territory-management" },
     {
-      name: "Lionsmane",
-      href: "/lionsmane",
-      dropdown: [
+      title: "Lionsmane",
+      items: [
         { name: "Lionsmane NFTs", href: "/lionsmane" },
         { name: "NFT Transform", href: "/nft-transformation" },
-      ]
+      ],
     },
-    { name: "Year 3030", href: "/future" },
+    { name: "Future", href: "/future" },
     { name: "Whitepaper", href: "/whitepaper" },
     { name: "GDD", href: "/gdd" },
   ]
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <div className="h-8 w-8 rounded bg-red-600 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">SM</span>
-          </div>
-          <span className="font-bold text-xl">SCAM Mercenaires</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-1">
-          {navigationItems.map((item) => (
-            <div
-              key={item.name}
-              className="relative"
-              onMouseEnter={() => item.dropdown && setActiveDropdown(item.name)}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <Link
-                href={item.href}
-                className="flex items-center px-3 py-2 text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-              >
-                {item.name}
-                {item.dropdown && <ChevronDown className="ml-1 h-3 w-3" />}
-              </Link>
-              
-              {item.dropdown && activeDropdown === item.name && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-zinc-900 border border-zinc-800 rounded-md shadow-lg py-1 z-50">
-                  {item.dropdown.map((dropdownItem) => (
-                    <Link
-                      key={dropdownItem.name}
-                      href={dropdownItem.href}
-                      className="block px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
-                    >
-                      {dropdownItem.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
-
-        {/* Mobile Navigation */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-80 bg-zinc-900 border-zinc-800">
-            <div className="flex flex-col space-y-4 mt-8">
-              {navigationItems.map((item) => (
-                <div key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="block px-4 py-3 text-lg font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
+      <div className="container flex h-16 items-center">
+        <div className="mr-4 hidden md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Image
+              src="/scam-mercenaries-logo.png"
+              alt="SCAM Mercenaries"
+              width={40}
+              height={40}
+              className="rounded-lg"
+            />
+            <span className="hidden font-bold sm:inline-block text-white">SCAM Mercenaries</span>
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            {navigationItems.map((item, index) => (
+              <div key={index} className="relative group">
+                {item.items ? (
+                  <div className="flex items-center space-x-1 cursor-pointer text-zinc-300 hover:text-white transition-colors">
+                    <span>{item.title}</span>
+                    <ChevronDown className="h-4 w-4" />
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-zinc-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="py-2">
+                        {item.items.map((subItem, subIndex) => (
+                          <Link
+                            key={subIndex}
+                            href={subItem.href}
+                            className="block px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Link href={item.href} className="text-zinc-300 hover:text-white transition-colors">
                     {item.name}
                   </Link>
-                  {item.dropdown && (
-                    <div className="ml-4 mt-2 space-y-2">
-                      {item.dropdown.map((dropdownItem) => (
-                        <Link
-                          key={dropdownItem.name}
-                          href={dropdownItem.href}
-                          className="block px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md transition-colors"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {dropdownItem.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+            >
+              <Menu className="h-6 w-6 text-white" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="pr-0 bg-black border-zinc-800">
+            <Link href="/" className="flex items-center space-x-2 mb-6" onClick={() => setIsOpen(false)}>
+              <Image
+                src="/scam-mercenaries-logo.png"
+                alt="SCAM Mercenaries"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+              <span className="font-bold text-white">SCAM Mercenaries</span>
+            </Link>
+            <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+              <div className="flex flex-col space-y-3">
+                {navigationItems.map((item, index) => (
+                  <div key={index}>
+                    {item.items ? (
+                      <div>
+                        <div className="font-medium text-white mb-2">{item.title}</div>
+                        <div className="ml-4 flex flex-col space-y-2">
+                          {item.items.map((subItem, subIndex) => (
+                            <Link
+                              key={subIndex}
+                              href={subItem.href}
+                              className="text-zinc-300 hover:text-white transition-colors"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="text-zinc-300 hover:text-white transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </SheetContent>
         </Sheet>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <div className="w-full flex-1 md:w-auto md:flex-none">
+            <Link href="/" className="flex items-center space-x-2 md:hidden">
+              <Image
+                src="/scam-mercenaries-logo.png"
+                alt="SCAM Mercenaries"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+              <span className="font-bold text-white">SCAM Mercenaries</span>
+            </Link>
+          </div>
+        </div>
       </div>
     </header>
   )

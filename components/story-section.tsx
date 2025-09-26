@@ -1,6 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Globe, Home, Cpu, Lock } from "lucide-react"
-
 export default function StorySection() {
   return (
     <div className="container mx-auto px-4">
@@ -13,58 +10,97 @@ export default function StorySection() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-          <div className="h-48 bg-gradient-to-r from-red-900 to-purple-900 flex items-center justify-center">
-            <Globe className="h-16 w-16 text-white/80" />
+      <div className="space-y-16">
+        {/* Hero Story Card - Summer Limpkin */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30">
+          <div className="absolute inset-0">
+            <img
+              src="/story/summer-limpkin-president.png"
+              alt="Summer Limpkin - Level 10 President"
+              className="w-full h-full object-cover opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-purple-900/50 to-transparent" />
           </div>
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold mb-3">The Connected World</h3>
-            <p className="text-zinc-400">
-              Home addresses can be matched by crypto addresses. Smart homes are crypto-friendly to certain blockchains,
-              with powerful tools to keep security fluid and swift.
-            </p>
-          </CardContent>
-        </Card>
+          <div className="relative p-8 md:p-12">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="px-3 py-1 bg-red-600 text-white text-sm font-bold rounded">LEVEL 10 PRESIDENT</div>
+                <div className="px-3 py-1 bg-purple-600 text-white text-sm font-bold rounded">ASCENSION PROTOCOL</div>
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">The Rise of Digital Overlords</h3>
+              <p className="text-lg text-gray-300 leading-relaxed">
+                In 2030, corporate presidents have evolved beyond human limitations. Summer Limpkin represents the new
+                breed of digital-enhanced leaders who control both virtual and physical realms. With cybernetic implants
+                and neural interfaces, they command armies of mercenaries across the metaverse.
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-          <div className="h-48 bg-gradient-to-r from-blue-900 to-cyan-900 flex items-center justify-center">
-            <Home className="h-16 w-16 text-white/80" />
+        {/* City Street Scene */}
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="relative overflow-hidden rounded-xl">
+            <img
+              src="/story/cyberpunk-city-street.png"
+              alt="Cyberpunk City Streets"
+              className="w-full h-80 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4">
+              <h4 className="text-xl font-bold text-white mb-2">The Neon Underground</h4>
+              <p className="text-gray-300 text-sm">Where mercenaries gather and digital diamonds are traded</p>
+            </div>
           </div>
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold mb-3">The Smart Home Revolution</h3>
-            <p className="text-zinc-400">
-              Our homes have become extensions of the digital realm, responding to our needs and securing our lives
-              through blockchain technology and advanced AI systems.
+          <div className="space-y-6">
+            <h3 className="text-2xl md:text-3xl font-bold text-white">Streets of Neo-Tokyo</h3>
+            <p className="text-gray-300 leading-relaxed">
+              The city never sleeps. Holographic advertisements float between towering skyscrapers while crowds of
+              augmented humans navigate the neon-lit streets. This is where the resistance begins - in the shadows of
+              corporate power, where SCAM Mercenaries plan their next digital heist.
             </p>
-          </CardContent>
-        </Card>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-3 py-1 bg-blue-600/20 text-blue-300 text-sm rounded-full border border-blue-500/30">
+                Digital Markets
+              </span>
+              <span className="px-3 py-1 bg-purple-600/20 text-purple-300 text-sm rounded-full border border-purple-500/30">
+                Hologram Ads
+              </span>
+              <span className="px-3 py-1 bg-cyan-600/20 text-cyan-300 text-sm rounded-full border border-cyan-500/30">
+                Neural Networks
+              </span>
+            </div>
+          </div>
+        </div>
 
-        <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-          <div className="h-48 bg-gradient-to-r from-emerald-900 to-teal-900 flex items-center justify-center">
-            <Cpu className="h-16 w-16 text-white/80" />
-          </div>
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold mb-3">The Metaverse Evolution</h3>
-            <p className="text-zinc-400">
-              The metaverse has evolved beyond gaming into a full ecosystem where people learn, work, and socialize. It
-              has become an integral part of human civilization.
+        {/* Hologram Room Scene */}
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="space-y-6 order-2 md:order-1">
+            <h3 className="text-2xl md:text-3xl font-bold text-white">Command Centers</h3>
+            <p className="text-gray-300 leading-relaxed">
+              Every mercenary needs a base of operations. These high-tech hideouts feature holographic city maps,
+              real-time surveillance feeds, and quantum-encrypted communication systems. From here, you plan missions,
+              track targets, and coordinate with your team across the digital battlefield.
             </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-          <div className="h-48 bg-gradient-to-r from-amber-900 to-red-900 flex items-center justify-center">
-            <Lock className="h-16 w-16 text-white/80" />
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="p-3 bg-gray-800/50 rounded border border-gray-700">
+                <div className="text-cyan-400 font-semibold">Holographic Intel</div>
+                <div className="text-gray-400">3D city mapping</div>
+              </div>
+              <div className="p-3 bg-gray-800/50 rounded border border-gray-700">
+                <div className="text-purple-400 font-semibold">Neural Interface</div>
+                <div className="text-gray-400">Direct brain connection</div>
+              </div>
+            </div>
           </div>
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold mb-3">The Looming Threat</h3>
-            <p className="text-zinc-400">
-              If this power were to get into the wrong hands, it could essentially lock people into a virtual world
-              where they have no control over themselves or their lives.
-            </p>
-          </CardContent>
-        </Card>
+          <div className="relative overflow-hidden rounded-xl order-1 md:order-2">
+            <img
+              src="/story/hologram-room.jpeg"
+              alt="Holographic Command Center"
+              className="w-full h-80 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          </div>
+        </div>
       </div>
     </div>
   )

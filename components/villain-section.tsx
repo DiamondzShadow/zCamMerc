@@ -14,15 +14,15 @@ export default function VillainSection() {
           <div
             className="aspect-[3/4] rounded-lg overflow-hidden"
             style={{
-              backgroundImage: `url('/cybernetic-overlord.png')`,
+              backgroundImage: `url('/villains/real-hates-epic.png')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent rounded-lg" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg" />
           <div className="absolute bottom-0 left-0 p-6">
             <h3 className="text-2xl font-bold mb-2">Real Hates</h3>
-            <p className="text-zinc-400">The ruthless leader of the Limptin Foundation</p>
+            <p className="text-zinc-400">The ruthless cybernetic overlord of the Limptin Foundation</p>
           </div>
         </div>
 

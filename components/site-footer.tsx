@@ -1,123 +1,124 @@
 import Link from "next/link"
-import { Shield } from 'lucide-react'
+import { Shield } from "lucide-react"
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="md:col-span-1 flex flex-col items-center">
+    <footer className="border-t border-zinc-800 bg-zinc-950/90 backdrop-blur-sm">
+      <div className="container mx-auto px-4 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Brand Section */}
+          <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Shield className="h-5 w-5 text-red-500" />
-              <span className="font-bold">SCAM MERCENAIRES</span>
+              <Shield className="h-6 w-6 text-red-500" />
+              <span className="font-bold text-lg text-white">SCAM MERCENAIRES</span>
             </div>
-            <p className="text-zinc-400 text-sm text-center md:text-left">
+            <p className="text-zinc-400 text-sm leading-relaxed">
               The fight for digital freedom in a world where crypto technology can control your mind.
             </p>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="font-semibold mb-3">Explore</h3>
-            <ul className="space-y-2">
+          {/* Explore Section */}
+          <div>
+            <h3 className="font-semibold text-white mb-4">Explore</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-zinc-400 hover:text-white text-sm">
+                <Link href="/" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/characters" className="text-zinc-400 hover:text-white text-sm">
+                <Link href="/characters" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
                   Characters
                 </Link>
               </li>
               <li>
-                <Link href="/missions" className="text-zinc-400 hover:text-white text-sm">
+                <Link href="/missions" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
                   Missions
                 </Link>
               </li>
               <li>
-                <Link href="/lionsmane" className="text-zinc-400 hover:text-white text-sm">
-                  LIONSMANE NFTs
+                <Link href="/weapons" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Weapons
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="font-semibold mb-3">Experience</h3>
-            <ul className="space-y-2">
+          {/* Experience Section */}
+          <div>
+            <h3 className="font-semibold text-white mb-4">Experience</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/simulator" className="text-zinc-400 hover:text-white text-sm">
+                <Link href="/simulator" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
                   Mission Simulator
                 </Link>
               </li>
               <li>
-                <Link href="/lionsmane" className="text-zinc-400 hover:text-white text-sm">
-                  NFT Generator
+                <Link href="/lionsmane" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  LIONSMANE NFTs
                 </Link>
               </li>
               <li>
-                <Link href="/characters" className="text-zinc-400 hover:text-white text-sm">
-                  Meet the Heroes
+                <Link href="/hideouts" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Hideouts
                 </Link>
               </li>
               <li>
-                <Link href="/missions" className="text-zinc-400 hover:text-white text-sm">
-                  Mission Details
+                <Link
+                  href="/territory-management"
+                  className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors"
+                >
+                  Territory Control
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="font-semibold mb-3">Connect</h3>
-            <ul className="space-y-2">
+          {/* Resources Section */}
+          <div>
+            <h3 className="font-semibold text-white mb-4">Resources</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/simulator" className="text-zinc-400 hover:text-white text-sm">
-                  Join the Resistance
+                <Link href="/gdd" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Game Design Doc
                 </Link>
               </li>
               <li>
-                <Link href="/lionsmane" className="text-zinc-400 hover:text-white text-sm">
-                  Create Your NFT
+                <Link href="/whitepaper" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Whitepaper
                 </Link>
               </li>
               <li>
-                <Link href="/missions" className="text-zinc-400 hover:text-white text-sm">
-                  Start Your Mission
+                <Link href="/setup" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Setup Guide
                 </Link>
               </li>
               <li>
-                <Link href="/characters" className="text-zinc-400 hover:text-white text-sm">
-                  Choose Your Character
+                <Link href="/storyline" className="text-zinc-400 hover:text-cyan-400 text-sm transition-colors">
+                  Storyline
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-            <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-              Built by{' '}
-              <span className="font-medium text-foreground">
-                Diamondz Crews, Diamondz Shadow & X Banks
-              </span>
-              . The source code is available on{' '}
-              <Link
-                href="https://github.com/scam-mercenaries"
-                target="_blank"
-                rel="noreferrer"
-                className="font-medium underline underline-offset-4"
-              >
-                GitHub
-              </Link>
-              .
-            </p>
           </div>
         </div>
 
-        <div className="border-t border-zinc-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
-            © 2024 SCAM Mercenaries. All rights reserved.
-          </p>
+        {/* Bottom Section */}
+        <div className="border-t border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-zinc-400">© 2024 SCAM Mercenaries. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-sm text-zinc-400">
+            <span>Built by</span>
+            <span className="font-medium text-cyan-400">Diamondz Crews, Diamondz Shadow & X Banks</span>
+            <span>•</span>
+            <Link
+              href="https://github.com/scam-mercenaries"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors"
+            >
+              GitHub
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,75 +1,112 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Zap, Users, Crown, ChevronDown } from "lucide-react"
 import Link from "next/link"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import Image from "next/image"
 
 export default function HeroSection() {
-  const [showTrailer, setShowTrailer] = useState(false)
-
   return (
-    <section className="relative h-[90vh] flex items-center overflow-hidden">
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url('/neon-grid.png')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.4)",
-        }}
-      />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/scam-mercenaries-cover.png"
+          alt="SCAM Mercenaries Cover Art"
+          fill
+          className="object-cover object-center"
+          priority
+          quality={100}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10" />
-
-      <div className="container mx-auto px-4 relative z-20">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
-            <span className="text-red-500">SCAM</span> MERCENAIRES
-          </h1>
-          <p className="text-xl md:text-2xl text-zinc-300 mb-8 leading-relaxed">
-            In a world where crypto technology can control your home, your mind, and your future, a sinister
-            organization seeks to weaponize the metaverse against humanity.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/simulator">
-              <Button className="bg-red-600 hover:bg-red-700 text-lg py-6 px-8">
-                Start Your Mission <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Button variant="outline" className="text-lg py-6 px-8" onClick={() => setShowTrailer(true)}>
-              Watch Trailer
-            </Button>
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          {/* Logo - Smaller Size */}
+          <div className="mb-6">
+            <Image
+              src="/scam-mercenaries-logo.png"
+              alt="SCAM Mercenaries Logo"
+              width={150}
+              height={150}
+              className="mx-auto drop-shadow-2xl"
+              priority
+            />
           </div>
 
-          <div className="mt-12 flex items-center gap-4">
-            <div className="h-px bg-zinc-700 flex-1" />
-            <span className="text-zinc-500 text-sm uppercase tracking-wider">The digital resistance begins</span>
-            <div className="h-px bg-zinc-700 flex-1" />
+          {/* Main Title */}
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-2xl">
+            SCAM
+            <span className="block text-red-500 drop-shadow-2xl">MERCENARIES</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl text-zinc-200 mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+            Enter the neon-soaked streets of Neo-Tokyo. Choose your mercenary, master cybernetic weapons, and fight for
+            survival in the digital underground.
+          </p>
+
+          {/* Call to Action */}
+          <div className="mb-12">
+            <Link href="/simulator">
+              <Button
+                size="lg"
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-2xl hover:shadow-red-500/25 transition-all duration-300 hover:scale-105"
+              >
+                <Zap className="mr-2 h-5 w-5" />
+                Start Your Mission
+              </Button>
+            </Link>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <Card className="bg-black/40 backdrop-blur-sm border-zinc-800 hover:border-red-500/50 transition-all duration-300 hover:scale-105">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Epic Missions</h3>
+                <p className="text-zinc-400">
+                  Infiltrate corporate towers, hack neural networks, and survive the digital wasteland
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black/40 backdrop-blur-sm border-zinc-800 hover:border-blue-500/50 transition-all duration-300 hover:scale-105">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Crown className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">LIONSMANE NFTs</h3>
+                <p className="text-zinc-400">
+                  Collect and transform unique digital assets that evolve with your gameplay
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black/40 backdrop-blur-sm border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 hover:scale-105">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Choose Your Path</h3>
+                <p className="text-zinc-400">
+                  Build your mercenary team and forge alliances in the resistance against corporate control
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="animate-bounce">
+            <ChevronDown className="h-8 w-8 text-zinc-400 mx-auto" />
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-10" />
-
-      <Dialog open={showTrailer} onOpenChange={setShowTrailer}>
-        <DialogContent className="sm:max-w-[800px] bg-zinc-900 border-zinc-800">
-          <DialogHeader>
-            <DialogTitle>Scam Mercenaires Trailer</DialogTitle>
-            <DialogDescription>A glimpse into the fight against the Limptin Foundation</DialogDescription>
-          </DialogHeader>
-          <div className="aspect-video bg-zinc-800 rounded-md flex items-center justify-center">
-            <div className="text-center p-8">
-              <p className="text-zinc-400 mb-4">Trailer simulation</p>
-              <p className="text-zinc-300 text-lg">
-                An intense cyberpunk montage showing the heroes fighting against the Limptin Foundation's nano
-                technology across global locations.
-              </p>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   )
 }

@@ -16,18 +16,18 @@ export default function ThreatSection() {
         <div
           className="h-96 rounded-xl overflow-hidden"
           style={{
-            backgroundImage: `url('/nano-metaverse-weave.png')`,
+            backgroundImage: `url('/ai-threat-epic.jpg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent rounded-xl" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent rounded-xl" />
         <div className="absolute bottom-0 left-0 p-8 max-w-2xl">
-          <h3 className="text-2xl font-bold mb-4 text-red-500">The Biggest SCAM</h3>
+          <h3 className="text-3xl font-bold mb-4 text-red-500">MOLECULAR TAKEDOWN INITIATED</h3>
           <p className="text-zinc-300">
-            These artificially aware NFTs hold metadata to be transferred to nano bot builders which create quantum
-            computers in the host address—causing homes to shut down, also at a molecular level capable of infecting a
-            human's thought process giving all control to the nano-bots creator.
+            The AI Lion King has awakened. Cybernetic entities with glowing neural networks are infiltrating reality
+            itself. These molecular-level nano-bots can reconstruct matter, control minds, and transform entire cities
+            into digital prisons. The biggest SCAM in human history is unfolding.
           </p>
         </div>
       </div>
