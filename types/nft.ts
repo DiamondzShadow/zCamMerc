@@ -3,7 +3,10 @@ export type NFT = {
   name: string
   image: string
   description: string
-  rarity: "Common" | "Rare" | "Legendary"
+  rarity: "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary" | "Mythic"
   power: number
   price: number
+  level?: number
+  collection?: string
+  openseaUrl?: string
 }

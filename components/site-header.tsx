@@ -20,7 +20,6 @@ export default function SiteHeader() {
         { name: "Simulator", href: "/simulator" },
       ],
     },
-    { name: "Hunters", href: "/hunters" },
     { name: "Weapons", href: "/weapons" },
     { name: "Territories", href: "/territory-management" },
     {
