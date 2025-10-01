@@ -46,7 +46,7 @@ export default function LionsmaneHierarchy() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20.1-Cb7R5Gk2cpQ8A837d9h612qKJpjbdJ.jpeg"
+                src="/images/design-mode/King%20.1.jpeg"
                 alt="LIONSMANE Hierarchy"
                 fill
                 className="object-cover"
@@ -277,7 +277,7 @@ export default function LionsmaneHierarchy() {
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20.1-ut1Bvpb2T3UPcb2T3wUHxgn9CdA6nh.jpeg"
+                src="/images/design-mode/Ghost%20.1.jpeg"
                 alt="LIONSMANE Progression"
                 fill
                 className="object-cover"
@@ -498,7 +498,7 @@ export default function LionsmaneHierarchy() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trappe%20.1-bnYtDPe0R3gtJFvkb52W2kbl31zNmE.jpeg"
+                src="/images/design-mode/Trappe%20.1.jpeg"
                 alt="Digital Territory"
                 fill
                 className="object-cover"
@@ -649,7 +649,7 @@ export default function LionsmaneHierarchy() {
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20and%20Raven-AFPwR9Dda2c3v6WkXSRPvVd95eOn4R.jpeg"
+                src="/images/design-mode/King%20and%20Raven.jpeg"
                 alt="Future Evolution"
                 fill
                 className="object-cover"

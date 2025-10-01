@@ -51,7 +51,7 @@ export default function ExpandedStoryline() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trapper-fMXOV9lsfTlmqXp6A4CM6jzZ0aPidG.jpeg"
+                src="/images/design-mode/trapper.jpeg"
                 alt="Nwgeua's secret laboratory"
                 fill
                 className="object-cover"
@@ -69,7 +69,7 @@ export default function ExpandedStoryline() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20.1-ut1Bvpb2T3UPcb2T3wUHxgn9CdA6nh.jpeg"
+                src="/images/design-mode/Ghost%20.1.jpeg"
                 alt="The Nano Wraith"
                 fill
                 className="object-cover"
@@ -123,7 +123,7 @@ export default function ExpandedStoryline() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Dreamers%20.7-x8dbSTGqRuEu9oxhZRRqUPt08T2EwT.jpeg"
+                src="/images/design-mode/Dreamers%20.7.jpeg"
                 alt="Carmen in Neo-Tokyo"
                 fill
                 className="object-cover"
@@ -141,7 +141,7 @@ export default function ExpandedStoryline() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20.1-Cb7R5Gk2cpQ8A837d9h612qKJpjbdJ.jpeg"
+                src="/images/design-mode/King%20.1.jpeg"
                 alt="The Digital Throne"
                 fill
                 className="object-cover"
@@ -180,7 +180,7 @@ export default function ExpandedStoryline() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="relative rounded-lg overflow-hidden aspect-video">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trappe%20.1-bnYtDPe0R3gtJFvkb52W2kbl31zNmE.jpeg"
+                src="/images/design-mode/Trappe%20.1.jpeg"
                 alt="The Green Nexus"
                 fill
                 className="object-cover"
@@ -193,7 +193,7 @@ export default function ExpandedStoryline() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-video">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%201-8ppbsvnKnxcfbG8hU2zzG8WVOiVlDn.jpeg"
+                src="/images/design-mode/Ghost%201.jpeg"
                 alt="Neo-Tokyo Underground"
                 fill
                 className="object-cover"
@@ -206,7 +206,7 @@ export default function ExpandedStoryline() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-video">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/President%20Vantage-IQ9xcb4VPHIrkwg8aSsU9tJEXWeONL.jpeg"
+                src="/images/design-mode/President%20Vantage.jpeg"
                 alt="The White Citadel"
                 fill
                 className="object-cover"

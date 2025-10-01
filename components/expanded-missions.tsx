@@ -41,7 +41,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20-5WgJQpiK38YVt1RkWSZwAtt8fO7OJP.jpeg"
+                    src="/images/design-mode/Ghost%20.jpeg"
                     alt="The Blue Sentinel"
                     fill
                     className="object-cover"
@@ -114,7 +114,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20and%20Raven-AFPwR9Dda2c3v6WkXSRPvVd95eOn4R.jpeg"
+                    src="/images/design-mode/King%20and%20Raven.jpeg"
                     alt="The Confrontation"
                     fill
                     className="object-cover"
@@ -190,7 +190,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%201-8ppbsvnKnxcfbG8hU2zzG8WVOiVlDn.jpeg"
+                    src="/images/design-mode/Ghost%201.jpeg"
                     alt="Neo-Tokyo Infiltration"
                     fill
                     className="object-cover"
@@ -267,7 +267,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trappe%20.1-bnYtDPe0R3gtJFvkb52W2kbl31zNmE.jpeg"
+                    src="/images/design-mode/Trappe%20.1.jpeg"
                     alt="The Green Nexus"
                     fill
                     className="object-cover"
@@ -344,7 +344,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/President%20Vantage-IQ9xcb4VPHIrkwg8aSsU9tJEXWeONL.jpeg"
+                    src="/images/design-mode/President%20Vantage.jpeg"
                     alt="The White Citadel"
                     fill
                     className="object-cover"
@@ -421,7 +421,7 @@ export default function ExpandedMissions() {
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="relative h-64 md:h-auto md:col-span-1">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20.1-ut1Bvpb2T3UPcb2T3wUHxgn9CdA6nh.jpeg"
+                    src="/images/design-mode/Ghost%20.1.jpeg"
                     alt="The Nano Wraith"
                     fill
                     className="object-cover"

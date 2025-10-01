@@ -29,7 +29,7 @@ export default function FutureLionsmaneSystem() {
         </div>
         <div className="relative rounded-lg overflow-hidden aspect-square">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%201-8ppbsvnKnxcfbG8hU2zzG8WVOiVlDn.jpeg"
+            src="/images/design-mode/Ghost%201.jpeg"
             alt="Evolved LIONSMANE Entity"
             fill
             className="object-cover"

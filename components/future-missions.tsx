@@ -21,7 +21,7 @@ export default function FutureMissions() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="relative h-64 md:h-auto md:col-span-1">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trapper-fMXOV9lsfTlmqXp6A4CM6jzZ0aPidG.jpeg"
+                src="/images/design-mode/trapper.jpeg"
                 alt="The Memory Forge"
                 fill
                 className="object-cover"
@@ -94,7 +94,7 @@ export default function FutureMissions() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="relative h-64 md:h-auto md:col-span-1">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trappe%20.1-bnYtDPe0R3gtJFvkb52W2kbl31zNmE.jpeg"
+                src="/images/design-mode/Trappe%20.1.jpeg"
                 alt="The Emerald Nexus"
                 fill
                 className="object-cover"
@@ -167,7 +167,7 @@ export default function FutureMissions() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="relative h-64 md:h-auto md:col-span-1">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20and%20Raven-AFPwR9Dda2c3v6WkXSRPvVd95eOn4R.jpeg"
+                src="/images/design-mode/King%20and%20Raven.jpeg"
                 alt="The Twilight Corridor"
                 fill
                 className="object-cover"
@@ -240,7 +240,7 @@ export default function FutureMissions() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="relative h-64 md:h-auto md:col-span-1">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20.1-Cb7R5Gk2cpQ8A837d9h612qKJpjbdJ.jpeg"
+                src="/images/design-mode/King%20.1.jpeg"
                 alt="The Ascension Spire"
                 fill
                 className="object-cover"

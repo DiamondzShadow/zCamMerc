@@ -54,7 +54,7 @@ export default function FutureTimeline() {
             </div>
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20.1-ut1Bvpb2T3UPcb2T3wUHxgn9CdA6nh.jpeg"
+                src="/images/design-mode/Ghost%20.1.jpeg"
                 alt="A Sentient LIONSMANE Entity"
                 fill
                 className="object-cover"
@@ -72,7 +72,7 @@ export default function FutureTimeline() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%20-5WgJQpiK38YVt1RkWSZwAtt8fO7OJP.jpeg"
+                src="/images/design-mode/Ghost%20.jpeg"
                 alt="The Ethereal Sentinels"
                 fill
                 className="object-cover"
@@ -146,7 +146,7 @@ export default function FutureTimeline() {
               </div>
               <div className="relative rounded-lg overflow-hidden aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trappe%20.1-bnYtDPe0R3gtJFvkb52W2kbl31zNmE.jpeg"
+                  src="/images/design-mode/Trappe%20.1.jpeg"
                   alt="The Emerald Nexus"
                   fill
                   className="object-cover"
@@ -162,7 +162,7 @@ export default function FutureTimeline() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="relative rounded-lg overflow-hidden aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20.1-Cb7R5Gk2cpQ8A837d9h612qKJpjbdJ.jpeg"
+                  src="/images/design-mode/King%20.1.jpeg"
                   alt="The Ascension Spire"
                   fill
                   className="object-cover"
@@ -204,7 +204,7 @@ export default function FutureTimeline() {
               </div>
               <div className="relative rounded-lg overflow-hidden aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20and%20Raven-AFPwR9Dda2c3v6WkXSRPvVd95eOn4R.jpeg"
+                  src="/images/design-mode/King%20and%20Raven.jpeg"
                   alt="The Twilight Corridor"
                   fill
                   className="object-cover"
@@ -223,7 +223,7 @@ export default function FutureTimeline() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative rounded-lg overflow-hidden aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trapper-fMXOV9lsfTlmqXp6A4CM6jzZ0aPidG.jpeg"
+                src="/images/design-mode/trapper.jpeg"
                 alt="The Memory Forge"
                 fill
                 className="object-cover"
@@ -263,7 +263,7 @@ export default function FutureTimeline() {
             <div className="bg-zinc-800 rounded-lg overflow-hidden">
               <div className="relative aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ghost%201-8ppbsvnKnxcfbG8hU2zzG8WVOiVlDn.jpeg"
+                  src="/images/design-mode/Ghost%201.jpeg"
                   alt="The Azure Knight"
                   fill
                   className="object-cover"
@@ -285,7 +285,7 @@ export default function FutureTimeline() {
             <div className="bg-zinc-800 rounded-lg overflow-hidden">
               <div className="relative aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/President%20Vantage-IQ9xcb4VPHIrkwg8aSsU9tJEXWeONL.jpeg"
+                  src="/images/design-mode/President%20Vantage.jpeg"
                   alt="The Architect"
                   fill
                   className="object-cover"
@@ -307,7 +307,7 @@ export default function FutureTimeline() {
             <div className="bg-zinc-800 rounded-lg overflow-hidden">
               <div className="relative aspect-square">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Dreamers%20.7-x8dbSTGqRuEu9oxhZRRqUPt08T2EwT.jpeg"
+                  src="/images/design-mode/Dreamers%20.7.jpeg"
                   alt="The Dreamer"
                   fill
                   className="object-cover"
